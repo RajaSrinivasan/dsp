@@ -536,7 +536,7 @@ package body wave is
    end Apply ;
    
 
-   procedure Print( w : Wave_Type ; filename : String := "" ) is
+   procedure Print( w : Wave_Type ; filename : String := "" ; separator : String := " , " ) is
       ofile : File_Type ;
    begin
       if filename'length > 0
@@ -547,12 +547,12 @@ package body wave is
       
       for s in w.Xs'range
       loop
-         Put( w.Xs(s) ) ; Put(" , ");
+         Put( w.Xs(s) ) ; Put(separator);
          case w.real is
             when true => Put( w.samples(s) ) ;
             when false => 
-               Put(w.csamples(s).Re) ; Put (" , ");
-               Put(w.csamples(s).Im) ; Put (" , ");
+               Put(w.csamples(s).Re) ; Put (separator);
+               Put(w.csamples(s).Im) ; Put (separator);
          end case ;
          New_Line ;
       end loop ;

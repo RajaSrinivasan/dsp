@@ -83,6 +83,6 @@ package wave is
    
    function Apply( w : windows.Window_Type'Class ; wi : Wave_Type ; offset : integer ) return Wave_Type ;
 
-   procedure Print( w : Wave_Type ; filename : string := "" );
+   procedure Print( w : Wave_Type ; filename : string := "" ; separator : String := " , ");
    
 end wave;
