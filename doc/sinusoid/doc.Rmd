@@ -1,0 +1,66 @@
+---
+title: "Sinusoid"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Sinusoid
+
+The utility sinusoid can generate a sinusoid of a specified frequency, amplitude and phase shift.
+
+```
+sinusoid <freq> <amplitude> <phase>
+```
+
+```{bash}
+../../sinusoid/bin/sinusoid sine_4_1.5.csv 4 1.5
+```
+The above command generated a sinusoid of frequency=4 and amplitude 1.5. The output is in the form of a csv file. Now let us load and analyze the data.
+
+
+```{bash}
+../../sinusoid/bin/sinusoid sine_2_1_1.csv 2 1 1
+```
+Another sinusoid - freq=2 amplitude=1 phase=1
+
+## Setup the environment
+```{r}
+library(dplyr)
+library(ggplot2)
+```
+\newpage
+
+## Load the table of values and plot
+
+```{r}
+values_4_15<-read.csv("sine_4_1.5.csv")
+names(values_4_15)<-c("x","y")
+plot(values_4_15$x,values_4_15$y,xlab="x",ylab="y")
+```
+\newpage
+
+## Plot the square of the value
+
+Let us create a column with the square of the value and plot that.
+```{r}
+values_4_15 <-values_4_15 %>% mutate(ysq=y^2)
+plot(values_4_15$x,values_4_15$ysq,xlab="x",ylab="y^2")
+```
+
+\newpage
+
+## Some signal algebra
+
+```{r}
+values_2_1_1<-read.csv("sine_2_1_1.csv")
+names(values_2_1_1)<-c("x","y")
+values_4_15<-cbind(values_4_15,y_2=values_2_1_1$y)
+values_4_15<- values_4_15 %>% mutate(y_sum=ysq+y_2)
+plot(values_4_15$x,xlab="x",values_4_15$y_sum,ylab="y_sum")
+```
+

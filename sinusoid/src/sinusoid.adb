@@ -1,5 +1,6 @@
 with Ada.Numerics; use Ada.Numerics;
 with Ada.Command_Line; use Ada.Command_Line ;
+with Ada.Text_Io; use Ada.Text_IO;
 
 with signal.sinusoid ;
 with wave ;
@@ -10,15 +11,20 @@ procedure Sinusoid is
    phase : float := Pi/2.0 ;
 
 begin
-   if Argument_Count >= 1
+   if Argument_Count < 1
    then
-      freq := float'Value(Argument(1));
-      if Argument_Count >= 2
+      Put_Line("usage: sinusoid outputfilename [<frequency> [<amplitude> [<phase>]]]");
+      return;
+   end if;
+   if Argument_Count >= 2
+   then
+      freq := float'Value(Argument(2));
+      if Argument_Count >= 3
       then
-         amplitude := float'Value(Argument(2));
-         if Argument_Count >= 3
+         amplitude := float'Value(Argument(3));
+         if Argument_Count >= 4
          then
-            phase := float'Value(Argument(3));
+            phase := float'Value(Argument(4));
          end if ;
       end if;
    end if; 
@@ -30,6 +36,6 @@ begin
       w : Wave.Wave_Type := Wave.Create(200,0.0,1.0);
    begin
       Wave.Generate( w , sin ) ;
-      Wave.Print( w , "sine.csv" );
+      Wave.Print( w , Argument(1) );
    end ;
 end Sinusoid ;
