@@ -8,7 +8,7 @@ package body windows is
       shift : Integer := length / 2;
    begin
       h.factors := new Real_Vector (1 .. length);
-      for n in h.factors'range loop
+      for n in h.factors'Range loop
          h.factors (n) :=
            0.5 +
            0.5 *
@@ -20,16 +20,16 @@ package body windows is
       shift : Integer := length / 2;
    begin
       h.factors := new Real_Vector (1 .. length);
-      for n in h.factors'range loop
+      for n in h.factors'Range loop
          h.factors (n) :=
            0.54 +
            0.46 *
              Cos (2.0 * Ada.Numerics.Pi * Float (n - shift) / Float (length));
       end loop;
    end Generate;
-   procedure Print (w : Window_Type'class) is
+   procedure Print (w : Window_Type'Class) is
    begin
-      for wf in w.factors'range loop
+      for wf in w.factors'Range loop
          Put (wf);
          Put (" ");
          Put (w.factors (wf));

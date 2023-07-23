@@ -1,30 +1,30 @@
-with GNAT.Random_Numbers ;
+with GNAT.Random_Numbers;
 package body signal.noise is
 
-   gen : GNAT.Random_Numbers.Generator ;
-   function Value( g : in out UncorrelatedNoise_Type ; arg : float ) return float is
-      rf : float ;
+   gen : GNAT.Random_Numbers.Generator;
+   function Value (g : in out UncorrelatedNoise_Type; arg : float) return float
+   is
+      rf : float;
    begin
-      rf := GNAT.Random_Numbers.Random(gen) - 0.5 ;
-      return rf * g.amplitude ;
-   end Value ;
-   
-   function Value( g : in out GaussianNoise_Type ; arg : float ) return float is
-      rf : float ;
-   begin
-      rf := GNAT.Random_Numbers.Random_Gaussian(gen) ;
-      return rf * g.amplitude ;
-   end Value ;
-   
-   function Value( g : in out BrownianNoise_Type ; arg : float ) return float is
-      rf : float ;
-   begin
-      rf := GNAT.Random_Numbers.Random(gen) - 0.5 ;
-      g.cumsum := g.cumsum + rf ;
-      return g.cumsum ;
-   end Value ;
+      rf := GNAT.Random_Numbers.Random (gen) - 0.5;
+      return rf * g.amplitude;
+   end Value;
 
-   
+   function Value (g : in out GaussianNoise_Type; arg : float) return float is
+      rf : float;
+   begin
+      rf := GNAT.Random_Numbers.Random_Gaussian (gen);
+      return rf * g.amplitude;
+   end Value;
+
+   function Value (g : in out BrownianNoise_Type; arg : float) return float is
+      rf : float;
+   begin
+      rf       := GNAT.Random_Numbers.Random (gen) - 0.5;
+      g.cumsum := g.cumsum + rf;
+      return g.cumsum;
+   end Value;
+
    --  overriding
    --  procedure Generate( sig : BrownianNoise_Type ;
    --                      samples : Wave.Samples_PtrType ) is
@@ -60,9 +60,9 @@ package body signal.noise is
    --     loop
    --        samples(samp).y := 2.0 * sig.amplitude * (samples(samp).y-min)/bamp - sig.amplitude ;
    --     end loop ;
-   --  
+   --
    --  end Generate;
-   --  
+   --
 begin
-   GNAT.Random_Numbers.Reset(gen) ;
+   GNAT.Random_Numbers.Reset (gen);
 end signal.noise;

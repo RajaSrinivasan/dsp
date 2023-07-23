@@ -2,8 +2,7 @@ package body signal is
 
    procedure Initialize is
    begin
-      null ;
-   end Initialize ;
-   
+      null;
+   end Initialize;
 
 end signal;
