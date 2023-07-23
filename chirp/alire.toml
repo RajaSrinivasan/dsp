@@ -1,4 +1,4 @@
-name = "sinusoid"
+name = "chirp"
 description = "Shiny new project"
 version = "0.1.0-dev"
 
@@ -6,8 +6,7 @@ authors = ["R Srinivasan"]
 maintainers = ["R Srinivasan <rajasrinivasan@hotmail.com>"]
 maintainers-logins = ["rajasrinivasan"]
 
-executables = ["sinusoid"]
+executables = ["chirp"]
 
 [build-switches]
 development.style_checks = "No"
-

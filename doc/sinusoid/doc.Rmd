@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 The utility sinusoid can generate a sinusoid of a specified frequency, amplitude and phase shift.
 
 ```
-sinusoid <freq> <amplitude> <phase>
+sinusoid outputfilename <freq> <amplitude> <phase>
 ```
 
 ```{bash}
