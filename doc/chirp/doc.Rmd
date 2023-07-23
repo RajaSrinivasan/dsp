@@ -9,6 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Objectives
+
+In this project, we try to visualize the **chirp** signal. Since this signal
+varies in power based on the frequency, visualization in the frequency domain using 
+the **fft** of the signal is recommended. 
+
+In addition, for plotting, we will use the \textbf{ggplot2} library.
 
 ## Chirp
 
