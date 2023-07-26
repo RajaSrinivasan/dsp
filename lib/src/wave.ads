@@ -69,6 +69,10 @@ package wave is
    procedure Generate (w : in out Wave_Type; g : in out Generator'Class);
    procedure Initialize (w : in out Wave_Type; wg : in out WGenerator'Class);
 
+   type NPGenerator is interface;
+   procedure Generate (w : in out Wave_Type; g : in out NPGenerator'Class)
+            is abstract;
+
    ------------------------------------
    type System is interface;
    function Transform (s : System; w : Wave_Type) return Wave_Type is abstract;

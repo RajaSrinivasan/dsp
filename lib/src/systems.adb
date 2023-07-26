@@ -6,7 +6,7 @@ with Ada.Numerics.Complex_Arrays; use Ada.Numerics.Complex_Arrays;
 
 package body systems is
 
-   function Allocate (w : Wave_Type; length : integer := 0) return Wave_Type is
+   function Allocate (w : Wave_Type; length : Integer := 0) return Wave_Type is
       result : Wave_Type := new Wave_RecType (w.real);
    begin
       result.sample_rate := w.sample_rate;
@@ -29,16 +29,16 @@ package body systems is
       result : Wave_Type := Allocate (w);
    begin
       case result.real is
-         when true =>
+         when True =>
             result.samples     := new Real_Vector (w.samples'Range);
             result.samples.all := w.samples.all;
-         when false =>
+         when False =>
             result.csamples     := new Complex_Vector (w.csamples'Range);
             result.csamples.all := w.csamples.all;
       end case;
       return result;
    end Transform;
-   procedure Transform (i : Identity; w : in out Wave_TYpe) is
+   procedure Transform (i : Identity; w : in out Wave_Type) is
    begin
       null;
    end Transform;
@@ -51,14 +51,14 @@ package body systems is
       Transform (s, result);
       return result;
    end Transform;
-   procedure Transform (s : Scale; w : in out Wave_TYpe) is
+   procedure Transform (s : Scale; w : in out Wave_Type) is
       use Ada.Numerics.Complex_Types;
    begin
       for valp in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                w.samples (valp) := w.samples (valp) * s.factor;
-            when false =>
+            when False =>
                w.csamples (valp) := w.csamples (valp) * s.factor;
          end case;
       end loop;
@@ -72,14 +72,14 @@ package body systems is
       Transform (o, result);
       return result;
    end Transform;
-   procedure Transform (o : Offset; w : in out Wave_TYpe) is
+   procedure Transform (o : Offset; w : in out Wave_Type) is
       use Ada.Numerics.Complex_Types;
    begin
       for valp in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                w.samples (valp) := w.samples (valp) + o.by;
-            when false =>
+            when False =>
                w.csamples (valp) := w.csamples (valp) + o.by;
          end case;
       end loop;
@@ -91,15 +91,15 @@ package body systems is
       Transform (p, result);
       return result;
    end Transform;
-   procedure Transform (p : Power; w : in out Wave_TYpe) is
+   procedure Transform (p : Power; w : in out Wave_Type) is
       use Ada.Numerics.Complex_Elementary_Functions;
       use Ada.Numerics.Elementary_Functions;
    begin
       for valp in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                w.samples (valp) := w.samples (valp)**p.p;
-            when false =>
+            when False =>
                w.csamples (valp) := w.csamples (valp)**p.p;
          end case;
       end loop;
@@ -113,14 +113,14 @@ package body systems is
       return result;
    end Transform;
 
-   procedure Transform (s : Shift; w : in out Wave_TYpe) is
+   procedure Transform (s : Shift; w : in out Wave_Type) is
    begin
       for valp in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                w.samples (valp) :=
                  w.samples ((valp + s.slots) mod w.Xs'Length);
-            when false =>
+            when False =>
                w.csamples (valp) :=
                  w.csamples ((valp + s.slots) mod w.Xs'Length);
          end case;
@@ -129,21 +129,21 @@ package body systems is
 
    function Transform (s : Slide; w : Wave_Type) return Wave_Type is
       use Ada.Numerics.Complex_Types;
-      it     : identity;
+      it     : Identity;
       result : Wave_Type := Transform (it, w);
    begin
       Transform (s, result);
       return result;
    end Transform;
 
-   procedure Transform (s : Slide; w : in out Wave_TYpe) is
+   procedure Transform (s : Slide; w : in out Wave_Type) is
       use Ada.Numerics.Complex_Types;
    begin
       for valp in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                w.samples (valp) := w.samples (valp) + s.offset;
-            when false =>
+            when False =>
                w.csamples (valp) := w.csamples (valp) + s.offset;
          end case;
       end loop;
@@ -154,9 +154,9 @@ package body systems is
    begin
       for valp in result.Xs'Range loop
          case result.real is
-            when true =>
+            when True =>
                result.samples (valp) := w.samples (valp * d.factor);
-            when false =>
+            when False =>
                result.csamples (valp) := w.csamples (valp * d.factor);
          end case;
       end loop;
@@ -171,15 +171,15 @@ package body systems is
       resultlen :=
         Integer
           (Float'Floor
-             (10.0**(log (float (w.Xs'Length), 10.0) / float (p.p))));
+             (10.0**(Log (Float (w.Xs'Length), 10.0) / Float (p.p))));
       declare
          result : Wave_Type := Allocate (w, resultlen);
       begin
          for valp in result.Xs'Range loop
             case result.real is
-               when true =>
+               when True =>
                   result.samples (valp) := w.samples (valp**p.p);
-               when false =>
+               when False =>
                   result.csamples (valp) := w.csamples (valp**p.p);
             end case;
          end loop;
@@ -188,17 +188,17 @@ package body systems is
    end Transform;
 
    function Transform (m : MovingAverage; w : Wave_Type) return Wave_Type is
-      it     : identity;
+      it     : Identity;
       result : Wave_Type := Transform (it, w);
    begin
       Transform (m, result);
       return result;
    end Transform;
-   procedure Transform (m : MovingAverage; w : in out Wave_TYpe) is
+   procedure Transform (m : MovingAverage; w : in out Wave_Type) is
       use Ada.Numerics.Complex_Types;
-      cumsum     : float   := 0.0;
+      cumsum     : Float   := 0.0;
       cumcompsum : Complex := (Re => 0.0, Im => 0.0);
-      nidx       : integer;
+      nidx       : Integer;
    begin
       for valp in w.Xs'Range loop
          cumsum     := 0.0;
@@ -209,31 +209,31 @@ package body systems is
                nidx := nidx + w.Xs'Length;
             end if;
             case w.real is
-               when true =>
+               when True =>
                   cumsum := cumsum + w.samples (nidx);
-               when false =>
+               when False =>
                   cumcompsum := cumcompsum + w.csamples (nidx);
             end case;
          end loop;
          case w.real is
-            when true =>
-               w.samples (valp) := cumsum / float (m.levels);
-            when false =>
-               w.csamples (valp) := cumcompsum / float (m.levels);
+            when True =>
+               w.samples (valp) := cumsum / Float (m.levels);
+            when False =>
+               w.csamples (valp) := cumcompsum / Float (m.levels);
          end case;
       end loop;
    end Transform;
 
    function Transform (r : RecursiveAverage; w : Wave_Type) return Wave_Type is
-      it     : identity;
+      it     : Identity;
       result : Wave_Type := Transform (it, w);
    begin
       Transform (r, result);
       return result;
    end Transform;
-   procedure Transform (r : RecursiveAverage; w : in out Wave_TYpe) is
+   procedure Transform (r : RecursiveAverage; w : in out Wave_Type) is
       use Ada.Numerics.Complex_Types;
-      idx : integer;
+      idx : Integer;
    begin
       for valp in w.Xs'Range loop
          idx := valp - 1;
@@ -241,10 +241,10 @@ package body systems is
             idx := w.Xs'Length;
          end if;
          case w.real is
-            when true =>
+            when True =>
                w.samples (valp) :=
                  w.samples (valp) + r.fbweight * w.samples (idx);
-            when false =>
+            when False =>
                w.csamples (valp) :=
                  w.csamples (valp) + w.csamples (idx) * r.fbweight;
          end case;

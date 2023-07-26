@@ -1,4 +1,4 @@
-with Wave;
+with wave;
 package signal is
 
    procedure Initialize;

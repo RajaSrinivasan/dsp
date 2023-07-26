@@ -9,23 +9,23 @@ package body wave is
    use Ada.Numerics.Complex_Types;
    use Ada.Numerics.Real_Arrays;
    use Ada.Numerics.Complex_Arrays;
-   function max (l : float; r : float) return float is
+   function max (l : Float; r : Float) return Float is
    begin
-      return float'Max (l, r);
+      return Float'Max (l, r);
    end max;
 
-   function min (l : float; r : float) return float is
+   function min (l : Float; r : Float) return Float is
    begin
-      return float'Min (l, r);
+      return Float'Min (l, r);
    end min;
 
    function Create
-     (sample_rate : integer; start : float; span : float;
-      default     : float := 0.0) return Wave_Type
+     (sample_rate : Integer; start : Float; span : Float;
+      default     : Float := 0.0) return Wave_Type
    is
       result  : Wave_Type := new Wave_RecType;
-      delta_t : float     := 1.0 / float (sample_rate);
-      count   : integer   := 1 + integer (span * float (sample_rate));
+      delta_t : Float     := 1.0 / Float (sample_rate);
+      count   : Integer   := 1 + Integer (span * Float (sample_rate));
    begin
       result.sample_rate := sample_rate;
       result.start       := start;
@@ -41,12 +41,12 @@ package body wave is
       return result;
    end Create;
    function Create
-     (sample_rate : integer; start : float; span : float;
+     (sample_rate : Integer; start : Float; span : Float;
       values : access Ada.Numerics.Real_Arrays.Real_Vector) return Wave_Type
    is
       result  : Wave_Type := new Wave_RecType;
-      delta_t : float     := 1.0 / float (sample_rate);
-      count   : integer   := 1 + integer (span * float (sample_rate));
+      delta_t : Float     := 1.0 / Float (sample_rate);
+      count   : Integer   := 1 + Integer (span * Float (sample_rate));
 
    begin
       -- if Verbose
@@ -72,13 +72,13 @@ package body wave is
    end Create;
 
    function CreateComplex
-     (sample_rate : integer; start : float; span : float;
+     (sample_rate : Integer; start : Float; span : Float;
       default : Ada.Numerics.Complex_Types.Complex := (Re => 0.0, Im => 0.0))
       return Wave_Type
    is
-      result  : Wave_Type := new Wave_RecType (real => false);
-      delta_t : float     := 1.0 / float (sample_rate);
-      count   : integer   := 1 + integer (span * float (sample_rate));
+      result  : Wave_Type := new Wave_RecType (real => False);
+      delta_t : Float     := 1.0 / Float (sample_rate);
+      count   : Integer   := 1 + Integer (span * Float (sample_rate));
    begin
       result.sample_rate := sample_rate;
       result.start       := start;
@@ -98,9 +98,9 @@ package body wave is
    function Create (like : Wave_Type; length : Integer := 0) return Wave_Type
    is
 
-      result    : wave_type := new Wave_RecType (like.real);
-      resultlen : integer;
-      bigger    : boolean   := false;
+      result    : Wave_Type := new Wave_RecType (like.real);
+      resultlen : Integer;
+      bigger    : Boolean   := False;
    begin
       result.sample_rate := like.sample_rate;
       result.start       := like.start;
@@ -111,7 +111,7 @@ package body wave is
          resultlen := like.Xs'Length;
       end if;
       if resultlen > like.Xs'Length then
-         bigger                    := true;
+         bigger                    := True;
          result.Xs (like.Xs'Range) := like.Xs.all;
          for xp in like.Xs'Last + 1 .. result.Xs'Last loop
             result.Xs (xp) := result.Xs (xp - 1);
@@ -121,7 +121,7 @@ package body wave is
       end if;
 
       case result.real is
-         when true =>
+         when True =>
             result.samples := new Real_Vector (1 .. resultlen);
             if bigger then
                result.samples (like.samples'Range) := like.samples.all;
@@ -130,7 +130,7 @@ package body wave is
             else
                result.samples.all := like.samples (result.samples'Range);
             end if;
-         when false =>
+         when False =>
             result.csamples := new Complex_Vector (1 .. resultlen);
             if bigger then
                result.csamples (like.csamples'Range) := like.csamples.all;
@@ -145,25 +145,25 @@ package body wave is
       return result;
    end Create;
 
-   procedure Slide (W : in out Wave_Type; s : float) is
+   procedure Slide (W : in out Wave_Type; s : Float) is
    begin
-      for samp in w.Xs'Range loop
-         case w.real is
-            when true =>
-               w.samples (samp) := s + w.samples (samp);
-            when false =>
-               w.csamples (samp) := s + w.csamples (samp);
+      for samp in W.Xs'Range loop
+         case W.real is
+            when True =>
+               W.samples (samp) := s + W.samples (samp);
+            when False =>
+               W.csamples (samp) := s + W.csamples (samp);
          end case;
       end loop;
    end Slide;
-   procedure Slide (W : in out Wave_Type; c : complex) is
+   procedure Slide (W : in out Wave_Type; c : Complex) is
    begin
-      case w.real is
-         when true =>
+      case W.real is
+         when True =>
             raise Program_Error with "Slide by complex value of real vector";
-         when false =>
-            for samp in w.Xs'Range loop
-               w.csamples (samp) := w.csamples (samp) + c;
+         when False =>
+            for samp in W.Xs'Range loop
+               W.csamples (samp) := W.csamples (samp) + c;
             end loop;
       end case;
    end Slide;
@@ -175,7 +175,7 @@ package body wave is
    --     systems.Transform(s , w ) ;
    --  end Normalize ;
    function Normalize (w : Wave_Type) return Wave_Type is
-      n2 : float         := Norm (w, 2);
+      n2 : Float         := Norm (w, 2);
       s  : systems.Scale := systems.Scale'(factor => 1.0 / n2);
    begin
       return systems.Transform (s, w);
@@ -184,34 +184,34 @@ package body wave is
    function InnerProduct (x : Wave_Type; y : Wave_Type) return Complex is
       result : Complex := (Re => 0.0, Im => 0.0);
    begin
-      if x.sample_rate /= y.Sample_Rate or x.real /= x.real or
+      if x.sample_rate /= y.sample_rate or x.real /= x.real or
         x.Xs'Length /= y.Xs'Length
       then
-         raise PRogram_Error with "+ Incompatible Waves";
+         raise Program_Error with "+ Incompatible Waves";
       end if;
       for idx in x.Xs'Range loop
          case x.real is
-            when true =>
+            when True =>
                result.Re := result.Re + x.samples (idx) * y.samples (idx);
-            when false =>
+            when False =>
                result :=
                  result + x.csamples (idx) * Conjugate (y.csamples (idx));
          end case;
       end loop;
       return result;
    end InnerProduct;
-   function Angle (x : Wave_Type; y : Wave_Type) return float is
+   function Angle (x : Wave_Type; y : Wave_Type) return Float is
       use Ada.Numerics.Elementary_Functions;
       ip       : Complex;
-      npx, npy : float;
+      npx, npy : Float;
    begin
       ip  := InnerProduct (x, y);
       npx := Norm (x, 2);
       npy := Norm (y, 2);
-      return ArcCos (ip.Re / (npx * npy));
+      return Arccos (ip.Re / (npx * npy));
    end Angle;
 
-   function Orthogonal (x : Wave_Type; y : Wave_Type) return boolean is
+   function Orthogonal (x : Wave_Type; y : Wave_Type) return Boolean is
    begin
       return Angle (x, y) < epsilon;
    end Orthogonal;
@@ -227,24 +227,29 @@ package body wave is
       Initialize (wg, w);
    end Initialize;
 
+   --procedure Generate (w : in out Wave_Type; g : in out NPGenerator'Class) is
+   --begin
+   --   Put_Line("Generating");
+   --   null;
+   --end Generate ;
    ------------------------------------------------
    function Combine (Left : Wave_Type; Right : Wave_Type) return Wave_Type is
       result      : Wave_Type;
-      sample_rate : integer;
-      start       : float;
-      finallast   : float;
+      sample_rate : Integer;
+      start       : Float;
+      finallast   : Float;
 
    begin
 
-      if Left.sample_rate /= Right.Sample_Rate or Left.real /= Right.real then
-         raise PRogram_Error with "+ Incompatible Waves";
+      if Left.sample_rate /= Right.sample_rate or Left.real /= Right.real then
+         raise Program_Error with "+ Incompatible Waves";
       end if;
 
-      sample_rate := left.sample_rate;
+      sample_rate := Left.sample_rate;
       start       := min (Left.start, Right.start);
 
       finallast := max (Left.Xs (Left.Xs'Last), Right.Xs (Right.Xs'Last));
-      if left.real then
+      if Left.real then
          result := Create (sample_rate, start, finallast);
       else
          result := CreateComplex (sample_rate, start, finallast);
@@ -254,7 +259,7 @@ package body wave is
 
    function "+" (Left : Wave_Type; Right : Wave_Type) return Wave_Type is
       result : Wave_Type;
-      fp     : integer;
+      fp     : Integer;
    begin
 
       if Left.start > Right.start then
@@ -265,24 +270,24 @@ package body wave is
 
       for lx in Left.Xs'Range loop
          case result.real is
-            when true =>
-               result.samples (lx) := left.samples (lx);
-            when false =>
-               result.csamples (lx) := left.csamples (lx);
+            when True =>
+               result.samples (lx) := Left.samples (lx);
+            when False =>
+               result.csamples (lx) := Left.csamples (lx);
          end case;
       end loop;
 
       fp := 1;
       while fp <= result.Xs'Length loop
          if abs (result.Xs (fp) - Right.Xs (1)) < epsilon then
-            for rp in right.Xs'Range loop
+            for rp in Right.Xs'Range loop
                case result.real is
-                  when true =>
+                  when True =>
                      result.samples (fp + rp - 1) :=
-                       result.samples (fp + rp - 1) + right.samples (rp);
-                  when false =>
+                       result.samples (fp + rp - 1) + Right.samples (rp);
+                  when False =>
                      result.csamples (fp + rp - 1) :=
-                       result.csamples (fp + rp - 1) + right.csamples (rp);
+                       result.csamples (fp + rp - 1) + Right.csamples (rp);
                end case;
             end loop;
             return result;
@@ -292,18 +297,18 @@ package body wave is
 
       return result;
    end "+";
-   function "-" (Left : Wave_TYpe; Right : Wave_TYpe) return Wave_Type is
+   function "-" (Left : Wave_Type; Right : Wave_Type) return Wave_Type is
       result : Wave_Type;
-      fp     : integer;
+      fp     : Integer;
    begin
 
       if Left.start > Right.start then
          result := "-" (Right, Left);
          for rx in result.Xs'Range loop
             case result.real is
-               when true =>
+               when True =>
                   result.samples (rx) := -result.samples (rx);
-               when false =>
+               when False =>
                   result.csamples (rx) := -result.csamples (rx);
             end case;
          end loop;
@@ -314,24 +319,24 @@ package body wave is
 
       for lx in Left.Xs'Range loop
          case result.real is
-            when true =>
-               result.samples (lx) := left.samples (lx);
-            when false =>
-               result.csamples (lx) := left.csamples (lx);
+            when True =>
+               result.samples (lx) := Left.samples (lx);
+            when False =>
+               result.csamples (lx) := Left.csamples (lx);
          end case;
       end loop;
 
       fp := 1;
       while fp <= result.Xs'Length loop
          if abs (result.Xs (fp) - Right.Xs (1)) < epsilon then
-            for rp in right.Xs'Range loop
+            for rp in Right.Xs'Range loop
                case result.real is
-                  when true =>
+                  when True =>
                      result.samples (fp + rp - 1) :=
-                       result.samples (fp + rp - 1) - right.samples (rp);
-                  when false =>
+                       result.samples (fp + rp - 1) - Right.samples (rp);
+                  when False =>
                      result.csamples (fp + rp - 1) :=
-                       result.csamples (fp + rp - 1) - right.csamples (rp);
+                       result.csamples (fp + rp - 1) - Right.csamples (rp);
                end case;
             end loop;
             return result;
@@ -344,7 +349,7 @@ package body wave is
 
    function "*" (Left : Wave_Type; Right : Wave_Type) return Wave_Type is
       result : Wave_Type;
-      fp     : integer;
+      fp     : Integer;
    begin
 
       if Left.start > Right.start then
@@ -355,24 +360,24 @@ package body wave is
 
       for lx in Left.Xs'Range loop
          case result.real is
-            when true =>
-               result.samples (lx) := left.samples (lx);
-            when false =>
-               result.csamples (lx) := left.csamples (lx);
+            when True =>
+               result.samples (lx) := Left.samples (lx);
+            when False =>
+               result.csamples (lx) := Left.csamples (lx);
          end case;
       end loop;
 
       fp := 1;
       while fp <= result.Xs'Length loop
          if abs (result.Xs (fp) - Right.Xs (1)) < epsilon then
-            for rp in right.Xs'Range loop
+            for rp in Right.Xs'Range loop
                case result.real is
-                  when true =>
+                  when True =>
                      result.samples (fp + rp - 1) :=
-                       result.samples (fp + rp - 1) * right.samples (rp);
-                  when false =>
+                       result.samples (fp + rp - 1) * Right.samples (rp);
+                  when False =>
                      result.csamples (fp + rp - 1) :=
-                       result.csamples (fp + rp - 1) * right.csamples (rp);
+                       result.csamples (fp + rp - 1) * Right.csamples (rp);
                end case;
             end loop;
             return result;
@@ -383,18 +388,18 @@ package body wave is
       return result;
    end "*";
 
-   function "/" (Left : Wave_TYpe; Right : Wave_TYpe) return Wave_Type is
+   function "/" (Left : Wave_Type; Right : Wave_Type) return Wave_Type is
       result : Wave_Type;
-      fp     : integer;
+      fp     : Integer;
    begin
 
       if Left.start > Right.start then
          result := "/" (Right, Left);
          for rx in result.Xs'Range loop
             case result.real is
-               when true =>
+               when True =>
                   result.samples (rx) := 1.0 / result.samples (rx);
-               when false =>
+               when False =>
                   result.csamples (rx) := 1.0 / result.csamples (rx);
             end case;
          end loop;
@@ -405,24 +410,24 @@ package body wave is
 
       for lx in Left.Xs'Range loop
          case result.real is
-            when true =>
-               result.samples (lx) := left.samples (lx);
-            when false =>
-               result.csamples (lx) := left.csamples (lx);
+            when True =>
+               result.samples (lx) := Left.samples (lx);
+            when False =>
+               result.csamples (lx) := Left.csamples (lx);
          end case;
       end loop;
 
       fp := 1;
       while fp <= result.Xs'Length loop
          if abs (result.Xs (fp) - Right.Xs (1)) < epsilon then
-            for rp in right.Xs'Range loop
+            for rp in Right.Xs'Range loop
                case result.real is
-                  when true =>
+                  when True =>
                      result.samples (fp + rp - 1) :=
-                       result.samples (fp + rp - 1) / right.samples (rp);
-                  when false =>
+                       result.samples (fp + rp - 1) / Right.samples (rp);
+                  when False =>
                      result.csamples (fp + rp - 1) :=
-                       result.csamples (fp + rp - 1) / right.csamples (rp);
+                       result.csamples (fp + rp - 1) / Right.csamples (rp);
                end case;
             end loop;
             return result;
@@ -433,39 +438,39 @@ package body wave is
       return result;
    end "/";
 
-   function Norm (w : Wave_Type; p : integer := 2) return float is
+   function Norm (w : Wave_Type; p : Integer := 2) return Float is
       use Ada.Numerics.Elementary_Functions;
-      result : float := 0.0;
-      np     : float := float (p);
-      temp   : float;
+      result : Float := 0.0;
+      np     : Float := Float (p);
+      temp   : Float;
    begin
       for rx in w.samples'Range loop
          case w.real is
-            when true =>
+            when True =>
                temp := abs (w.samples (rx));
-            when false =>
+            when False =>
                temp := Modulus (w.csamples (rx));
          end case;
          result := result + temp**np;
       end loop;
       return result**(1.0 / np);
    end Norm;
-   function Energy (w : Wave_Type) return float is
+   function Energy (w : Wave_Type) return Float is
    begin
       return Norm (w, 2);
    end Energy;
 
-   function Max (w : Wave_Type) return float is
-      temp : float := float'Safe_Small;
+   function Max (w : Wave_Type) return Float is
+      temp : Float := Float'Safe_Small;
    begin
 
       for rx in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                if temp < w.samples (rx) then
                   temp := w.samples (rx);
                end if;
-            when false =>
+            when False =>
                if temp < Modulus (w.csamples (rx)) then
                   temp := Modulus (w.csamples (rx));
                end if;
@@ -474,17 +479,17 @@ package body wave is
       return temp;
    end Max;
    --
-   function Min (w : Wave_Type) return float is
-      temp : float := float'Safe_Large;
+   function Min (w : Wave_Type) return Float is
+      temp : Float := Float'Safe_Large;
    begin
 
       for rx in w.Xs'Range loop
          case w.real is
-            when true =>
+            when True =>
                if temp > w.samples (rx) then
                   temp := w.samples (rx);
                end if;
-            when false =>
+            when False =>
                if temp > Modulus (w.csamples (rx)) then
                   temp := Modulus (w.csamples (rx));
                end if;
@@ -494,18 +499,18 @@ package body wave is
    end Min;
 
    function Apply
-     (w : windows.Window_Type'Class; wi : Wave_Type; offset : integer)
+     (w : windows.Window_Type'Class; wi : Wave_Type; offset : Integer)
       return Wave_Type
    is
       result : Wave_Type;
    begin
       result :=
-        Wave.Create
+        wave.Create
           (wi.sample_rate, wi.Xs (offset + wi.Xs'First),
-           (float (w.factors'Length - 1)) * wi.deltax);
+           (Float (w.factors'Length - 1)) * wi.deltax);
       for valp in result.Xs'Range loop
          result.samples (valp) :=
-           wi.samples (wi.Samples'First + offset + valp) * w.factors (valp);
+           wi.samples (wi.samples'First + offset + valp) * w.factors (valp);
       end loop;
       return result;
    end Apply;
@@ -524,9 +529,9 @@ package body wave is
          Put (w.Xs (s));
          Put (separator);
          case w.real is
-            when true =>
+            when True =>
                Put (w.samples (s));
-            when false =>
+            when False =>
                Put (w.csamples (s).Re);
                Put (separator);
                Put (w.csamples (s).Im);
