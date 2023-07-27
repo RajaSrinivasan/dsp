@@ -29,4 +29,24 @@ package body signal.chirp is
       end loop;
    end Generate;
 
+    
+   procedure Generate (g : in out ExponentialChirp ; w : in out wave.Wave_Type) is
+      phase : float ;
+      use Ada.Numerics;
+      k : float := g.endfreq / g.startfreq ;
+   begin
+      --Put_Line("Generating");
+      for x in w.Xs'Range
+      loop
+         phase := 2.0 * PI * g.startfreq * ( ( k ** w.Xs(x) - 1.0)/ Log(k));
+         w.samples(x) := g.amplitude * 
+                         Elementary_Functions.Cos(phase) ;
+      end loop;
+   end Generate;
+
+   procedure Initialize (g : in out ExponentialChirp; w : wave.Wave_Type) is
+   begin
+      null;
+   end Initialize;
+
 end signal.chirp;

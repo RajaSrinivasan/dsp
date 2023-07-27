@@ -9,8 +9,14 @@ package signal.chirp is
 
    type LinearChirp is new Chirp_Type and
      wave.NPGenerator with null record;
-     
+
    procedure Generate (g : in out LinearChirp; w : in out wave.Wave_Type);
    procedure Initialize (g : in out LinearChirp; w : wave.Wave_Type);
+
+   type ExponentialChirp is new Chirp_Type and
+     wave.NPGenerator with null record;
+     
+   procedure Generate (g : in out ExponentialChirp ; w : in out wave.Wave_Type);
+   procedure Initialize (g : in out ExponentialChirp; w : wave.Wave_Type);
 
 end signal.chirp;
