@@ -30,6 +30,6 @@ jobs:
       with:
           name: "artifacts"
           path: |
-            ./sinusoid/bin/sinusoid 
-            ./chirp/bin/chirp 
-            ./echirp/bin/echirp
+            ./bin/sinusoid 
+            ./bin/chirp 
+            ./bin/echirp
