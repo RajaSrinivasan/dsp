@@ -1,4 +1,4 @@
-spname: Ada (GNAT)
+name: ThinkDSP companion
 
 on:
   push:
