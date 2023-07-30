@@ -20,6 +20,7 @@ jobs:
 
     - name: Build
       run: >
+        cd lib ; alr build ; cd .. ;
         cd sinusoid ; alr build ; cd .. ;
         cd chirp ; alr build ; cd .. ;
         cd echirp ; alr build ; cd ..
