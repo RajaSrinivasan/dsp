@@ -15,12 +15,11 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v3
 
-    - name: libraries
-      run: >
-        sudo apt update ;
-        sudo apt install libsndfile1 ;
-        sudo apt install libgsl-dev ;
-        pkg-config --libs libsndfile
+    - name: Libraries
+      - uses: awalsh128/cache-apt-pkgs-action@latest
+        with:
+          packages: libsndfile1 libgsl-dev libsndfile 
+          version: 1.0
 
     - name: Setup alr
       uses: alire-project/setup-alire@v2
