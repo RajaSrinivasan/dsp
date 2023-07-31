@@ -19,7 +19,8 @@ jobs:
       run: >
         sudo apt update ;
         sudo apt install libsndfile1 ;
-        sudo apt install libgsl-dev
+        sudo apt install libgsl-dev ;
+        pkg-config --libs libsndfile
 
     - name: Setup alr
       uses: alire-project/setup-alire@v2
