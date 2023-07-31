@@ -1,5 +1,9 @@
 #!/bin/bash
 
+pushd lib
+alr build
+popd
+
 pushd sinusoid
 alr build
 popd
