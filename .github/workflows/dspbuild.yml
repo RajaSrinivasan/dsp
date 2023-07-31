@@ -20,10 +20,8 @@ jobs:
 
     - name: Build
       run: >
-        cd lib ; alr build ; cd .. ;
-        cd sinusoid ; alr build ; cd .. ;
-        cd chirp ; alr build ; cd .. ;
-        cd echirp ; alr build ; cd ..
+        ./build.sh
+      shell: bash 
                 
     - name: Publish
       uses: actions/upload-artifact@v3
