@@ -18,7 +18,7 @@ jobs:
     - name: libraries
       run: >
         sudo apt update ;
-        sudo apt install libsndfile ;
+        sudo apt install libsndfile1 ;
         sudo apt install libgsl-dev
 
     - name: Setup alr
