@@ -1,0 +1,33 @@
+with "config/audio_config.gpr";
+with "../../lib/lib.gpr";
+
+project Audio is
+   
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Audio_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use "bin";
+   for Main use ("audio.adb");
+
+   package Compiler is
+      for Default_Switches ("Ada") use Audio_Config.Ada_Compiler_Switches;
+   end Compiler;
+
+   package Binder is
+      for Switches ("Ada") use ("-Es"); --  Symbolic traceback
+   end Binder;
+
+   package Linker is
+      case audio_config.Alire_Host_OS is
+         when "macos" =>
+            for Switches("Ada") use ("-L/opt/homebrew/lib/", "-lsndfile");
+         when others =>
+            for Switches("Ada") use ("-lsndfile");
+      end case;
+   end Linker;
+
+   package Install is
+      for Artifacts (".") use ("share");
+   end Install;
+
+end Audio;
