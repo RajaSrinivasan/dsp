@@ -18,7 +18,7 @@ jobs:
     - name: Libraries
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        packages: libsndfile1 libgsl-dev 
+        packages: libsndfile1 libsndfile1-dev libgsl-dev 
         version: 1.0
 
     - name: Setup alr
