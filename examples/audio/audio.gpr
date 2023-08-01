@@ -21,8 +21,6 @@ project Audio is
       case audio_config.Alire_Host_OS is
          when "macos" =>
             for Switches("Ada") use ("-L/opt/homebrew/lib/", "-lsndfile");
-         when others =>
-            for Switches("Ada") use ("-L/usr/lib/gcc/x86_64-linux-gnu","-lsndfile");
       end case;
    end Linker;
 

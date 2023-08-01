@@ -19,6 +19,8 @@ popd
 pushd examples
    pushd audio
    find /usr/lib/ -name "*snd*"
+   find /usr/local/lib -name "*snd*"
+   find /lib -name "*snd*"
    alr build
    popd
 popd
