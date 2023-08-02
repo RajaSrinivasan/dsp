@@ -16,7 +16,7 @@ with windows ;
 
 procedure Spect is
    sin : Signal.Sinusoid.Generator :=
-        ( frequency => 2.0 ,
+        ( frequency => 4.0 ,
           amplitude => 2.0 ,
           phase => Ada.Numerics.Pi/2.0 ) ;
       w : Wave.Wave_Type := Wave.Create(200,0.0,0.5);

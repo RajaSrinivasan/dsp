@@ -1,0 +1,44 @@
+---
+title: "spect"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Generate signal and its fft
+
+```{bash}
+../bin/spect sin
+```
+
+## Plot the signal freq analysis
+
+```{r}
+library(ggplot2)
+signalfft<-read.csv("sin.csv",header=FALSE,sep=",")
+names(signalfft)<-c("freq","rex","imx","mod","arg")
+
+ggplot(signalfft,aes(freq,mod))+geom_point()
+
+```
+
+###
+
+The top 5 frequencies are
+
+```{r}
+head(signalfft,5)
+```
+
+## Reconstructed waveform
+
+```{r}
+signal<-read.csv("sin_re.csv",header=FALSE,sep=",")
+names(signal) <- c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_line()
+```
+
