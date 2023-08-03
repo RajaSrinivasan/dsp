@@ -11,6 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## R Generate signal and its fft
 
+This generates a sinusoid 4 Hz, 1 second, sampled 200 Hz.
+
 ```{bash}
 ../bin/spect sin
 ```
@@ -19,14 +21,15 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ```{r}
 library(ggplot2)
+library(dplyr)
 signalfft<-read.csv("sin.csv",header=FALSE,sep=",")
 names(signalfft)<-c("freq","rex","imx","mod","arg")
 
-ggplot(signalfft,aes(freq,mod))+geom_point()
 
 ```
 
-###
+### Dominant frequencies
+
 
 The top 5 frequencies are
 
@@ -34,11 +37,16 @@ The top 5 frequencies are
 head(signalfft,5)
 ```
 
+```{r}
+dominant<-signalfft %>% slice_head(n=10)
+ggplot(dominant,aes(x=freq,y=mod))+geom_bar(stat="identity")
+```
+
 ## Reconstructed waveform
 
 ```{r}
 signal<-read.csv("sin_re.csv",header=FALSE,sep=",")
 names(signal) <- c("x","y")
-ggplot(signal,aes(x=x,y=y))+geom_line()
+ggplot(signal,aes(x=x,y=y))+geom_point(colour="red", size=5,show.legend=TRUE)+theme(legend.position = "bottom")
 ```
 
