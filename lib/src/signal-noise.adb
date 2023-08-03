@@ -2,23 +2,23 @@ with GNAT.Random_Numbers;
 package body signal.noise is
 
    gen : GNAT.Random_Numbers.Generator;
-   function Value (g : in out UncorrelatedNoise_Type; arg : float) return float
+   function Value (g : in out UncorrelatedNoise_Type; arg : Float) return Float
    is
-      rf : float;
+      rf : Float;
    begin
       rf := GNAT.Random_Numbers.Random (gen) - 0.5;
       return rf * g.amplitude;
    end Value;
 
-   function Value (g : in out GaussianNoise_Type; arg : float) return float is
-      rf : float;
+   function Value (g : in out GaussianNoise_Type; arg : Float) return Float is
+      rf : Float;
    begin
       rf := GNAT.Random_Numbers.Random_Gaussian (gen);
       return rf * g.amplitude;
    end Value;
 
-   function Value (g : in out BrownianNoise_Type; arg : float) return float is
-      rf : float;
+   function Value (g : in out BrownianNoise_Type; arg : Float) return Float is
+      rf : Float;
    begin
       rf       := GNAT.Random_Numbers.Random (gen) - 0.5;
       g.cumsum := g.cumsum + rf;

@@ -2,8 +2,8 @@ with Ada.Numerics.Elementary_Functions;
 package body signal.sinc is
    package Numlib renames Ada.Numerics.Elementary_Functions;
 
-   function Value (g : in out Generator; arg : float) return float is
-      localarg : float;
+   function Value (g : in out Generator; arg : Float) return Float is
+      localarg : Float;
    begin
       localarg := arg + g.phase;
       if abs (localarg) < epsilon then
