@@ -24,8 +24,6 @@ library(ggplot2)
 library(dplyr)
 signalfft<-read.csv("sin.csv",header=FALSE,sep=",")
 names(signalfft)<-c("freq","rex","imx","mod","arg")
-
-
 ```
 
 ### Dominant frequencies
@@ -49,4 +47,41 @@ signal<-read.csv("sin_re.csv",header=FALSE,sep=",")
 names(signal) <- c("x","y")
 ggplot(signal,aes(x=x,y=y))+geom_point(colour="red", size=5,show.legend=TRUE)+theme(legend.position = "bottom")
 ```
+
+\newpage
+
+## Square Wave
+
+```{bash}
+../bin/spectsq sq
+```
+
+In this case, we use a much lower sampling frequency. The impact of the lower number of component sinusoids on the accuracy of the synthesis results should be obvious.
+```{r}
+rm(signalfft)
+rm(dominant)
+rm(signal)
+signalfft<-read.csv("sq.csv",header=FALSE,sep=",")
+names(signalfft)<-c("freq","rex","imx","mod","arg")
+dominant<-signalfft %>% slice_head(n=10)
+barplot(dominant$mod,col="steelblue",names.arg=dominant$freq,xlab="Frequency")
+signal<-read.csv("sq_re.csv",header=FALSE,sep=",")
+names(signal) <- c("x","y")
+signalorig<-read.csv("sq_orig.csv",header=FALSE,sep=",")
+names(signalorig) <- c("x","y")
+signal <- signal %>% mutate(yorig=signalorig$y)
+```
+
+## Original and Reconstructed signals
+
+```{r}
+ggplot(signal,aes(x=x,y=y))+
+      geom_line(colour="red",linewidth=1)+
+      geom_line(aes(y=yorig),color="blue",linewidth=1)+
+      theme(legend.position = "bottom")
+```
+
+
+  
+
 
