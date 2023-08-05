@@ -1,0 +1,111 @@
+pragma Ada_2012;
+pragma Style_Checks (Off);
+pragma Warnings ("U");
+
+with Interfaces.C; use Interfaces.C;
+
+package gsl_gsl_const_mks_h is
+
+   GSL_CONST_MKS_SPEED_OF_LIGHT : constant := (2.99792458e8);  --  /usr/include/gsl/gsl_const_mks.h:24
+   GSL_CONST_MKS_GRAVITATIONAL_CONSTANT : constant := (6.673e-11);  --  /usr/include/gsl/gsl_const_mks.h:25
+   GSL_CONST_MKS_PLANCKS_CONSTANT_H : constant := (6.62606896e-34);  --  /usr/include/gsl/gsl_const_mks.h:26
+   GSL_CONST_MKS_PLANCKS_CONSTANT_HBAR : constant := (1.05457162825e-34);  --  /usr/include/gsl/gsl_const_mks.h:27
+   GSL_CONST_MKS_ASTRONOMICAL_UNIT : constant := (1.49597870691e11);  --  /usr/include/gsl/gsl_const_mks.h:28
+   GSL_CONST_MKS_LIGHT_YEAR : constant := (9.46053620707e15);  --  /usr/include/gsl/gsl_const_mks.h:29
+   GSL_CONST_MKS_PARSEC : constant := (3.08567758135e16);  --  /usr/include/gsl/gsl_const_mks.h:30
+   GSL_CONST_MKS_GRAV_ACCEL : constant := (9.80665e0);  --  /usr/include/gsl/gsl_const_mks.h:31
+   GSL_CONST_MKS_ELECTRON_VOLT : constant := (1.602176487e-19);  --  /usr/include/gsl/gsl_const_mks.h:32
+   GSL_CONST_MKS_MASS_ELECTRON : constant := (9.10938188e-31);  --  /usr/include/gsl/gsl_const_mks.h:33
+   GSL_CONST_MKS_MASS_MUON : constant := (1.88353109e-28);  --  /usr/include/gsl/gsl_const_mks.h:34
+   GSL_CONST_MKS_MASS_PROTON : constant := (1.67262158e-27);  --  /usr/include/gsl/gsl_const_mks.h:35
+   GSL_CONST_MKS_MASS_NEUTRON : constant := (1.67492716e-27);  --  /usr/include/gsl/gsl_const_mks.h:36
+   GSL_CONST_MKS_RYDBERG : constant := (2.17987196968e-18);  --  /usr/include/gsl/gsl_const_mks.h:37
+   GSL_CONST_MKS_BOLTZMANN : constant := (1.3806504e-23);  --  /usr/include/gsl/gsl_const_mks.h:38
+   GSL_CONST_MKS_MOLAR_GAS : constant := (8.314472e0);  --  /usr/include/gsl/gsl_const_mks.h:39
+   GSL_CONST_MKS_STANDARD_GAS_VOLUME : constant := (2.2710981e-2);  --  /usr/include/gsl/gsl_const_mks.h:40
+   GSL_CONST_MKS_MINUTE : constant := (6e1);  --  /usr/include/gsl/gsl_const_mks.h:41
+   GSL_CONST_MKS_HOUR : constant := (3.6e3);  --  /usr/include/gsl/gsl_const_mks.h:42
+   GSL_CONST_MKS_DAY : constant := (8.64e4);  --  /usr/include/gsl/gsl_const_mks.h:43
+   GSL_CONST_MKS_WEEK : constant := (6.048e5);  --  /usr/include/gsl/gsl_const_mks.h:44
+   GSL_CONST_MKS_INCH : constant := (2.54e-2);  --  /usr/include/gsl/gsl_const_mks.h:45
+   GSL_CONST_MKS_FOOT : constant := (3.048e-1);  --  /usr/include/gsl/gsl_const_mks.h:46
+   GSL_CONST_MKS_YARD : constant := (9.144e-1);  --  /usr/include/gsl/gsl_const_mks.h:47
+   GSL_CONST_MKS_MILE : constant := (1.609344e3);  --  /usr/include/gsl/gsl_const_mks.h:48
+   GSL_CONST_MKS_NAUTICAL_MILE : constant := (1.852e3);  --  /usr/include/gsl/gsl_const_mks.h:49
+   GSL_CONST_MKS_FATHOM : constant := (1.8288e0);  --  /usr/include/gsl/gsl_const_mks.h:50
+   GSL_CONST_MKS_MIL : constant := (2.54e-5);  --  /usr/include/gsl/gsl_const_mks.h:51
+   GSL_CONST_MKS_POINT : constant := (3.52777777778e-4);  --  /usr/include/gsl/gsl_const_mks.h:52
+   GSL_CONST_MKS_TEXPOINT : constant := (3.51459803515e-4);  --  /usr/include/gsl/gsl_const_mks.h:53
+   GSL_CONST_MKS_MICRON : constant := (1e-6);  --  /usr/include/gsl/gsl_const_mks.h:54
+   GSL_CONST_MKS_ANGSTROM : constant := (1e-10);  --  /usr/include/gsl/gsl_const_mks.h:55
+   GSL_CONST_MKS_HECTARE : constant := (1e4);  --  /usr/include/gsl/gsl_const_mks.h:56
+   GSL_CONST_MKS_ACRE : constant := (4.04685642241e3);  --  /usr/include/gsl/gsl_const_mks.h:57
+   GSL_CONST_MKS_BARN : constant := (1e-28);  --  /usr/include/gsl/gsl_const_mks.h:58
+   GSL_CONST_MKS_LITER : constant := (1e-3);  --  /usr/include/gsl/gsl_const_mks.h:59
+   GSL_CONST_MKS_US_GALLON : constant := (3.78541178402e-3);  --  /usr/include/gsl/gsl_const_mks.h:60
+   GSL_CONST_MKS_QUART : constant := (9.46352946004e-4);  --  /usr/include/gsl/gsl_const_mks.h:61
+   GSL_CONST_MKS_PINT : constant := (4.73176473002e-4);  --  /usr/include/gsl/gsl_const_mks.h:62
+   GSL_CONST_MKS_CUP : constant := (2.36588236501e-4);  --  /usr/include/gsl/gsl_const_mks.h:63
+   GSL_CONST_MKS_FLUID_OUNCE : constant := (2.95735295626e-5);  --  /usr/include/gsl/gsl_const_mks.h:64
+   GSL_CONST_MKS_TABLESPOON : constant := (1.47867647813e-5);  --  /usr/include/gsl/gsl_const_mks.h:65
+   GSL_CONST_MKS_TEASPOON : constant := (4.92892159375e-6);  --  /usr/include/gsl/gsl_const_mks.h:66
+   GSL_CONST_MKS_CANADIAN_GALLON : constant := (4.54609e-3);  --  /usr/include/gsl/gsl_const_mks.h:67
+   GSL_CONST_MKS_UK_GALLON : constant := (4.546092e-3);  --  /usr/include/gsl/gsl_const_mks.h:68
+   GSL_CONST_MKS_MILES_PER_HOUR : constant := (4.4704e-1);  --  /usr/include/gsl/gsl_const_mks.h:69
+   GSL_CONST_MKS_KILOMETERS_PER_HOUR : constant := (2.77777777778e-1);  --  /usr/include/gsl/gsl_const_mks.h:70
+   GSL_CONST_MKS_KNOT : constant := (5.14444444444e-1);  --  /usr/include/gsl/gsl_const_mks.h:71
+   GSL_CONST_MKS_POUND_MASS : constant := (4.5359237e-1);  --  /usr/include/gsl/gsl_const_mks.h:72
+   GSL_CONST_MKS_OUNCE_MASS : constant := (2.8349523125e-2);  --  /usr/include/gsl/gsl_const_mks.h:73
+   GSL_CONST_MKS_TON : constant := (9.0718474e2);  --  /usr/include/gsl/gsl_const_mks.h:74
+   GSL_CONST_MKS_METRIC_TON : constant := (1e3);  --  /usr/include/gsl/gsl_const_mks.h:75
+   GSL_CONST_MKS_UK_TON : constant := (1.0160469088e3);  --  /usr/include/gsl/gsl_const_mks.h:76
+   GSL_CONST_MKS_TROY_OUNCE : constant := (3.1103475e-2);  --  /usr/include/gsl/gsl_const_mks.h:77
+   GSL_CONST_MKS_CARAT : constant := (2e-4);  --  /usr/include/gsl/gsl_const_mks.h:78
+   GSL_CONST_MKS_UNIFIED_ATOMIC_MASS : constant := (1.660538782e-27);  --  /usr/include/gsl/gsl_const_mks.h:79
+   GSL_CONST_MKS_GRAM_FORCE : constant := (9.80665e-3);  --  /usr/include/gsl/gsl_const_mks.h:80
+   GSL_CONST_MKS_POUND_FORCE : constant := (4.44822161526e0);  --  /usr/include/gsl/gsl_const_mks.h:81
+   GSL_CONST_MKS_KILOPOUND_FORCE : constant := (4.44822161526e3);  --  /usr/include/gsl/gsl_const_mks.h:82
+   GSL_CONST_MKS_POUNDAL : constant := (1.38255e-1);  --  /usr/include/gsl/gsl_const_mks.h:83
+   GSL_CONST_MKS_CALORIE : constant := (4.1868e0);  --  /usr/include/gsl/gsl_const_mks.h:84
+   GSL_CONST_MKS_BTU : constant := (1.05505585262e3);  --  /usr/include/gsl/gsl_const_mks.h:85
+   GSL_CONST_MKS_THERM : constant := (1.05506e8);  --  /usr/include/gsl/gsl_const_mks.h:86
+   GSL_CONST_MKS_HORSEPOWER : constant := (7.457e2);  --  /usr/include/gsl/gsl_const_mks.h:87
+   GSL_CONST_MKS_BAR : constant := (1e5);  --  /usr/include/gsl/gsl_const_mks.h:88
+   GSL_CONST_MKS_STD_ATMOSPHERE : constant := (1.01325e5);  --  /usr/include/gsl/gsl_const_mks.h:89
+   GSL_CONST_MKS_TORR : constant := (1.33322368421e2);  --  /usr/include/gsl/gsl_const_mks.h:90
+   GSL_CONST_MKS_METER_OF_MERCURY : constant := (1.33322368421e5);  --  /usr/include/gsl/gsl_const_mks.h:91
+   GSL_CONST_MKS_INCH_OF_MERCURY : constant := (3.38638815789e3);  --  /usr/include/gsl/gsl_const_mks.h:92
+   GSL_CONST_MKS_INCH_OF_WATER : constant := (2.490889e2);  --  /usr/include/gsl/gsl_const_mks.h:93
+   GSL_CONST_MKS_PSI : constant := (6.89475729317e3);  --  /usr/include/gsl/gsl_const_mks.h:94
+   GSL_CONST_MKS_POISE : constant := (1e-1);  --  /usr/include/gsl/gsl_const_mks.h:95
+   GSL_CONST_MKS_STOKES : constant := (1e-4);  --  /usr/include/gsl/gsl_const_mks.h:96
+   GSL_CONST_MKS_STILB : constant := (1e4);  --  /usr/include/gsl/gsl_const_mks.h:97
+   GSL_CONST_MKS_LUMEN : constant := (1e0);  --  /usr/include/gsl/gsl_const_mks.h:98
+   GSL_CONST_MKS_LUX : constant := (1e0);  --  /usr/include/gsl/gsl_const_mks.h:99
+   GSL_CONST_MKS_PHOT : constant := (1e4);  --  /usr/include/gsl/gsl_const_mks.h:100
+   GSL_CONST_MKS_FOOTCANDLE : constant := (1.076e1);  --  /usr/include/gsl/gsl_const_mks.h:101
+   GSL_CONST_MKS_LAMBERT : constant := (1e4);  --  /usr/include/gsl/gsl_const_mks.h:102
+   GSL_CONST_MKS_FOOTLAMBERT : constant := (1.07639104e1);  --  /usr/include/gsl/gsl_const_mks.h:103
+   GSL_CONST_MKS_CURIE : constant := (3.7e10);  --  /usr/include/gsl/gsl_const_mks.h:104
+   GSL_CONST_MKS_ROENTGEN : constant := (2.58e-4);  --  /usr/include/gsl/gsl_const_mks.h:105
+   GSL_CONST_MKS_RAD : constant := (1e-2);  --  /usr/include/gsl/gsl_const_mks.h:106
+   GSL_CONST_MKS_SOLAR_MASS : constant := (1.98892e30);  --  /usr/include/gsl/gsl_const_mks.h:107
+   GSL_CONST_MKS_BOHR_RADIUS : constant := (5.291772083e-11);  --  /usr/include/gsl/gsl_const_mks.h:108
+   GSL_CONST_MKS_NEWTON : constant := (1e0);  --  /usr/include/gsl/gsl_const_mks.h:109
+   GSL_CONST_MKS_DYNE : constant := (1e-5);  --  /usr/include/gsl/gsl_const_mks.h:110
+   GSL_CONST_MKS_JOULE : constant := (1e0);  --  /usr/include/gsl/gsl_const_mks.h:111
+   GSL_CONST_MKS_ERG : constant := (1e-7);  --  /usr/include/gsl/gsl_const_mks.h:112
+   GSL_CONST_MKS_STEFAN_BOLTZMANN_CONSTANT : constant := (5.67040047374e-8);  --  /usr/include/gsl/gsl_const_mks.h:113
+   GSL_CONST_MKS_THOMSON_CROSS_SECTION : constant := (6.65245893699e-29);  --  /usr/include/gsl/gsl_const_mks.h:114
+   GSL_CONST_MKS_BOHR_MAGNETON : constant := (9.27400899e-24);  --  /usr/include/gsl/gsl_const_mks.h:115
+   GSL_CONST_MKS_NUCLEAR_MAGNETON : constant := (5.05078317e-27);  --  /usr/include/gsl/gsl_const_mks.h:116
+   GSL_CONST_MKS_ELECTRON_MAGNETIC_MOMENT : constant := (9.28476362e-24);  --  /usr/include/gsl/gsl_const_mks.h:117
+   GSL_CONST_MKS_PROTON_MAGNETIC_MOMENT : constant := (1.410606633e-26);  --  /usr/include/gsl/gsl_const_mks.h:118
+   GSL_CONST_MKS_FARADAY : constant := (9.64853429775e4);  --  /usr/include/gsl/gsl_const_mks.h:119
+   GSL_CONST_MKS_ELECTRON_CHARGE : constant := (1.602176487e-19);  --  /usr/include/gsl/gsl_const_mks.h:120
+   GSL_CONST_MKS_VACUUM_PERMITTIVITY : constant := (8.854187817e-12);  --  /usr/include/gsl/gsl_const_mks.h:121
+   GSL_CONST_MKS_VACUUM_PERMEABILITY : constant := (1.25663706144e-6);  --  /usr/include/gsl/gsl_const_mks.h:122
+   GSL_CONST_MKS_DEBYE : constant := (3.33564095198e-30);  --  /usr/include/gsl/gsl_const_mks.h:123
+   GSL_CONST_MKS_GAUSS : constant := (1e-4);  --  /usr/include/gsl/gsl_const_mks.h:124
+
+end gsl_gsl_const_mks_h;
