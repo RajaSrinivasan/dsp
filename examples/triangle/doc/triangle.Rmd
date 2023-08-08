@@ -1,0 +1,23 @@
+---
+title: "triangle"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{bash}
+../bin/triangle triangle.csv 2
+```
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+signal<-read.csv("triangle.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_point()
+```
