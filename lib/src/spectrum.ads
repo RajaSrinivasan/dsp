@@ -11,7 +11,7 @@ package spectrum is
       cmplx       : access Ada.Numerics.Complex_Arrays.Complex_Vector;
    end record;
    type Freq_Type is access FreqRecord_Type;
-
+   procedure Simplify(f : in out Freq_Type ; frac : float := 0.5);
    function Analyze (w : wave.Wave_Type) return Freq_Type;
    function Synthesize (f : Freq_Type) return wave.Wave_Type;
    procedure Print (f : Freq_Type; filename : String := "");

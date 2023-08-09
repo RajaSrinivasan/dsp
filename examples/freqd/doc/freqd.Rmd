@@ -1,0 +1,92 @@
+---
+title: "freqd"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Overview
+
+In this project, we will load an arbitrary signal file in csv format, analyze the wave
+and then re synthesize the wave and compare.
+
+Simplify the synthesis by using only a fraction of the frequency components. It is
+obvious that the fidelity of reconstruction is directly related to the fraction of components
+retained.
+
+\newpage
+
+## Triangle 
+```{bash}
+../../triangle/bin/triangle triangle.csv 4
+../bin/freqd triangle.csv 0.08
+```
+
+## Original Signal 
+
+```{r}
+library(ggplot2)
+library(dplyr)
+signal<-read.csv("triangle.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_point()
+```
+
+
+\newpage
+
+## Spectrum
+
+```{r}
+signalfft<-read.csv("triangle.csv.csv",header=FALSE,sep=",")
+names(signalfft)<-c("freq","rex","imx","mod","arg")
+dominant<-signalfft %>% slice_head(n=10)
+barplot(dominant$mod,col="steelblue",names.arg=dominant$freq,xlab="Frequency")
+```
+
+\newpage
+
+## Reconstructed
+
+```{r}
+signalre<-read.csv("triangle.csv_re.csv",header=FALSE,sep=",")
+names(signalre) <- c("x","y")
+signalre <- signalre %>% mutate(yorig=signal$y)
+ggplot(signalre,aes(x=x,y=y))+
+      geom_line(colour="red",linewidth=1)+
+      geom_line(aes(y=yorig),color="blue",linewidth=1)+
+      theme(legend.position = "bottom")
+```
+
+\newpage
+
+## Sinusoid
+
+```{bash}
+../../../bin/sinusoid sinusoid.csv 8
+../bin/freqd sinusoid.csv 0.07
+```
+
+```{r}
+signal<-read.csv("sinusoid.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_line(color="green",linewidth=1)
+
+signalfft<-read.csv("sinusoid.csv.csv",header=FALSE,sep=",")
+names(signalfft)<-c("freq","rex","imx","mod","arg")
+dominant<-signalfft %>% slice_head(n=10)
+barplot(dominant$mod,col="steelblue",names.arg=dominant$freq,xlab="Frequency")
+
+signalre<-read.csv("sinusoid.csv_re.csv",header=FALSE,sep=",")
+names(signalre) <- c("x","y")
+signalre <- signalre %>% mutate(yorig=signal$y)
+ggplot(signalre,aes(x=x,y=y))+
+      geom_line(colour="red",linewidth=1)+
+      geom_line(aes(y=yorig),color="blue",linewidth=1)+
+      theme(legend.position = "bottom")
+
+```

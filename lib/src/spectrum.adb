@@ -6,8 +6,19 @@ with Interfaces.C; use Interfaces.C;
 with Ada.Numerics.Elementary_Functions;
 with Ada.Numerics.Complex_Types;
 
+
 with gsl.fft;
 package body spectrum is
+
+   procedure Simplify(f : in out Freq_Type ; frac : float := 0.5) is
+      keep : Integer := Integer(frac * Float(f.cmplx'Length)) ;
+      use Ada.Numerics.Complex_Types;
+   begin
+      for i in keep+1 .. f.cmplx'Last
+      loop
+         f.cmplx(i) := Compose_From_Cartesian (0.0, 0.0); 
+      end loop ;
+   end Simplify;
 
    function Analyze (w : wave.Wave_Type) return Freq_Type is
       use Ada.Numerics.Complex_Types;

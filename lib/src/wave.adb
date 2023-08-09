@@ -553,7 +553,7 @@ package body wave is
      (w : out Wave_Type; filename : String ; real : boolean := true ; separator : String := ",") is
       use type GNAT.awk.Count;
       sigcount : Integer := 0;
-      result : Wave_Type := new Wave_RecType ;
+      result : Wave_Type := new Wave_RecType(real) ;
    begin
       GNAT.awk.Set_Field_Separators(separator);
       begin
@@ -568,7 +568,8 @@ package body wave is
          declare
             xval : Float := Float'Value(GNAT.awk.Field(1,GNAT.awk.Current_Session.all)) ;
          begin
-            Put("x="); Put(xval); Put (",");
+            --Put("x="); Put(xval); Put (",");
+            null;
          end ;
 
          case real is
@@ -576,9 +577,10 @@ package body wave is
                   declare
                      f : Float := Float'Value(GNAT.awk.Field(2,GNAT.awk.Current_Session.all));
                   begin
-                     Put("y="); Put(f);
+                     -- Put("y="); Put(f);
+                     null;
                   end ;
-                  New_Line;
+                  -- New_Line;
                   if GNAT.awk.Number_Of_Fields /= 2
                   then
                      Put(Integer(GNAT.awk.Number_Of_Fields)); Put_Line("Not a file of real data");
@@ -613,6 +615,8 @@ package body wave is
          end case;
       end loop ;
       GNAT.awk.Close(GNAT.awk.Current_Session.all);
+
+      result.sample_rate := Integer(1.0 / (result.samples(2) - result.samples(1))) ;
       w := result;
    exception
       when others => 
