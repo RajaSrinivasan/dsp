@@ -85,5 +85,7 @@ package wave is
 
    procedure Print
      (w : Wave_Type; filename : String := ""; separator : String := " , ");
+   procedure Load
+     (w : out Wave_Type; filename : String ; real : boolean := true ; separator : String := ",");
 
 end wave;

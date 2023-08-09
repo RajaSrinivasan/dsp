@@ -3,6 +3,9 @@ with Ada.Float_Text_IO;   use Ada.Float_Text_IO;
 with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 
 with Ada.Numerics.Elementary_Functions;
+with GNAT.awk ;
+with GNAT.current_exception;
+
 with systems;
 
 package body wave is
@@ -545,5 +548,76 @@ package body wave is
          Set_Output (Standard_Output);
       end if;
    end Print;
+
+   procedure Load
+     (w : out Wave_Type; filename : String ; real : boolean := true ; separator : String := ",") is
+      use type GNAT.awk.Count;
+      sigcount : Integer := 0;
+      result : Wave_Type := new Wave_RecType ;
+   begin
+      GNAT.awk.Set_Field_Separators(separator);
+      begin
+         GNAT.awk.Open(filename => filename);
+      exception
+         when others => Put("Exception opening "); Put_Line(filename);
+      end ;
+      while not GNAT.awk.End_Of_Data
+      loop
+         GNAT.awk.Get_Line;
+         sigcount := sigcount + 1;
+         declare
+            xval : Float := Float'Value(GNAT.awk.Field(1,GNAT.awk.Current_Session.all)) ;
+         begin
+            Put("x="); Put(xval); Put (",");
+         end ;
+
+         case real is
+            when true => 
+                  declare
+                     f : Float := Float'Value(GNAT.awk.Field(2,GNAT.awk.Current_Session.all));
+                  begin
+                     Put("y="); Put(f);
+                  end ;
+                  New_Line;
+                  if GNAT.awk.Number_Of_Fields /= 2
+                  then
+                     Put(Integer(GNAT.awk.Number_Of_Fields)); Put_Line("Not a file of real data");
+                  end if ;
+            when false =>
+                  if GNAT.awk.Number_Of_Fields /= 3
+                  then
+                     Put_Line("Not a file of complex data");
+                  end if ;
+         end case;
+      end loop ;
+      GNAT.awk.Close(GNAT.awk.Current_Session.all);
+      
+      result.Xs := new Real_Vector (1 .. sigcount);
+      case real is
+         when true => 
+            result.samples     := new Real_Vector (1 .. sigcount);
+         when false => null;
+      end case ;
+      sigcount := 0;
+      GNAT.awk.Open(filename => filename);
+      while not GNAT.awk.End_Of_Data
+      loop
+         GNAT.awk.Get_Line;
+         sigcount := sigcount + 1;
+         result.Xs(sigcount) := Float'Value( GNAT.awk.Field(1));
+         case real is
+            when true => 
+                  result.samples(sigcount) := float'Value(GNAT.awk.Field(2));
+            when false =>
+                  null;
+         end case;
+      end loop ;
+      GNAT.awk.Close(GNAT.awk.Current_Session.all);
+      w := result;
+   exception
+      when others => 
+            Put_Line(GNAT.current_exception.Exception_Information);
+            raise;
+   end Load ;
 
 end wave;
