@@ -148,6 +148,63 @@ package body wave is
       return result;
    end Create;
 
+   function Append(w : Wave_Type; from : Wave_Type) return Wave_Type is
+      result : Wave_Type ;
+   begin
+      result := Create( like => w , length => w.Xs'Length + from.Xs'Length );
+      for x in w.Xs'Length + 1 .. result.Xs'Last
+      loop
+         result.Xs(x) := result.Xs(x-1) + result.deltax ;
+         case result.real is
+            when true => result.samples(x) := from.samples(x-w.Xs'Length);
+            when false => result.csamples(x) := from.csamples(x-w.Xs'Length);
+         end case ;
+      end loop ;
+      return result;
+   end Append ;
+
+   function Segment (w : Wave_Type; startx : float ; span : float ) return Wave_Type is
+      result : Wave_Type := new Wave_RecType (w.real);
+      count : Integer ;
+      fromidx : Integer ;
+   begin
+      if span > w.deltax * Float(w.Xs'Length)
+      then
+         raise Program_Error with "Segment has to be smaller than the source" ;
+      end if ;
+      if startx + span > w.Xs(w.Xs'Last)
+      then
+         raise Program_Error with "Segment has to be within the source";
+      end if;
+      result.sample_rate := w.sample_rate;
+      result.deltax := w.deltax ;
+      count := Integer(span / result.deltax) + 1 ;
+      result.Xs := new Real_Vector (1 .. count);
+      case result.real is
+         when true => 
+               result.samples     := new Real_Vector (1 .. count);
+         when false =>
+               result.csamples    := new Complex_Vector (1 .. count);
+      end case;
+      fromidx := Integer(startx - w.Xs(1)/w.deltax);
+      for x in result.Xs'Range
+      loop
+         fromidx := fromidx + 1;
+         if fromidx > w.Xs'Length
+         then
+            fromidx := w.Xs'First ;
+         end if ;
+         result.Xs(x) := w.Xs(fromidx) ;
+         case result.real is
+            when true =>
+               result.samples(x) := w.samples(fromidx);
+            when false =>
+               result.csamples(x) := w.csamples(fromidx);
+         end case;
+      end loop ;
+      return result ;
+   end Segment ;
+
    procedure Slide (W : in out Wave_Type; s : Float) is
    begin
       for samp in W.Xs'Range loop
@@ -444,7 +501,7 @@ package body wave is
    function Norm (w : Wave_Type; p : Integer := 2) return Float is
       use Ada.Numerics.Elementary_Functions;
       result : Float := 0.0;
-      np     : Float := Float (p);
+      np     : constant Float := Float (p);
       temp   : Float;
    begin
       for rx in w.samples'Range loop
@@ -553,7 +610,7 @@ package body wave is
      (w : out Wave_Type; filename : String ; real : boolean := true ; separator : String := ",") is
       use type GNAT.awk.Count;
       sigcount : Integer := 0;
-      result : Wave_Type := new Wave_RecType(real) ;
+      result : constant Wave_Type := new Wave_RecType(real) ;
    begin
       GNAT.awk.Set_Field_Separators(separator);
       begin
@@ -565,22 +622,8 @@ package body wave is
       loop
          GNAT.awk.Get_Line;
          sigcount := sigcount + 1;
-         declare
-            xval : Float := Float'Value(GNAT.awk.Field(1,GNAT.awk.Current_Session.all)) ;
-         begin
-            --Put("x="); Put(xval); Put (",");
-            null;
-         end ;
-
          case real is
             when true => 
-                  declare
-                     f : Float := Float'Value(GNAT.awk.Field(2,GNAT.awk.Current_Session.all));
-                  begin
-                     -- Put("y="); Put(f);
-                     null;
-                  end ;
-                  -- New_Line;
                   if GNAT.awk.Number_Of_Fields /= 2
                   then
                      Put(Integer(GNAT.awk.Number_Of_Fields)); Put_Line("Not a file of real data");

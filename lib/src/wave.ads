@@ -40,6 +40,8 @@ package wave is
       return Wave_Type;
 
    function Create (like : Wave_Type; length : Integer := 0) return Wave_Type;
+   function Segment (w : Wave_Type; startx : float ; span : float ) return Wave_Type;
+   function Append(w : Wave_Type; from : Wave_Type) return Wave_Type ;
 
    function "+" (Left : Wave_Type; Right : Wave_Type) return Wave_Type;
    function "-" (Left : Wave_Type; Right : Wave_Type) return Wave_Type;

@@ -25,7 +25,6 @@ package body spectrum is
       result : Freq_Type;
       wt     : gsl.fft.float_Wavetable;
       ws     : gsl.fft.float_Workspace;
-      --hcwt : gsl.fft.float_halfcomplex_wavetable ;
       freal  : Ada.Numerics.Real_Arrays.Real_Vector (w.Xs'Range);
       status : int;
 

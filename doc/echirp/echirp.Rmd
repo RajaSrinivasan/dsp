@@ -34,10 +34,10 @@ library(plotly)
 
 ## Basic exponential chirp signal - time domain
 
-Generate a simple echirp signal .
+Generate a simple echirp signal frequency range 5 - 50 Hz.
 
 ```{bash}
-../../echirp/bin/echirp echirp.csv
+../../bin/echirp echirp.csv 1 5 50
 ```
 
 ## Time domain plot
@@ -52,10 +52,12 @@ ggplot(echirp,aes(x=t,y=y))+geom_line()
 
 ## Frequency Domain
 
+This chart is generated browsable by using **ggplotly**.
+
 ```{r}
 fechirp <- data.frame( f = seq( 0, nrow(echirp) - 1 ) / ( nrow(echirp) * diff( echirp$t[ 1:2 ] ) ) )
 fechirp$mag <- Mod( fft( echirp$y ) )
-p<-ggplot(slice_head(fechirp,n=nrow(echirp)/2),aes(x=f,y=mag))+geom_line()
+p<-ggplot(slice_head(fechirp,n=as.integer(nrow(fechirp/10))),aes(x=f,y=mag))+geom_line()
 ggplotly(p)
 ```
 
