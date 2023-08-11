@@ -1,0 +1,94 @@
+---
+title: "arith"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Create the waves
+
+```{bash}
+../bin/arith arith
+```
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+load_signal <- function(filename) {
+  signal<-read.csv(filename,header=FALSE,sep=",")
+  names(signal) <- c("x","y")
+  signal
+}
+
+load_freq <- function(filename) {
+   signalfreq<-read.csv(filename,header=FALSE,sep=",")
+   names(signalfreq)<-c("freq","rex","imx","mod","arg")
+   signalfreq
+}
+
+plot_signal <- function(s,c) {
+  ggplot(s,aes(x=x,y=y))+geom_line(colour=c, size=2,show.legend=TRUE)+theme(legend.position = "bottom")
+}
+
+plot_freq <- function(freq) {
+  dominant<-freq %>% slice_head(n=10)
+  barplot(dominant$mod,col="steelblue",names.arg=dominant$freq,xlab="Frequency")
+}
+
+str<-load_signal("arith_tr.csv")
+ssq<-load_signal("arith_sq.csv")
+ssin1<-load_signal("arith_sin1.csv")
+ssin2<-load_signal("arith_sin2.csv")
+
+combined <- load_signal("arith_combined.csv")
+
+```
+
+### Triangle
+```{r}
+plot_signal(str,"red")
+```
+
+### Square
+```{r}
+plot_signal(ssq,"green")
+```
+
+### Sinusoids
+
+```{r}
+plot_signal(ssin1,"blue")
+plot_signal(ssin2,"magenta")
+```
+
+### Combined
+
+```{r}
+plot_signal(combined,"brown")
+```
+
+## Frequency Domain
+
+```{bash}
+../../freqd/bin/freqd arith_combined.csv  0.25
+```
+
+```{r}
+combfreq<-load_freq("arith_combined.csv.csv")
+plot_freq(combfreq)
+combre<-load_signal("arith_combined.csv_re.csv")
+plot_signal(combre,"red")
+```
+
+
+
+
+
+
+
