@@ -113,6 +113,8 @@ package body wave is
       else
          resultlen := like.Xs'Length;
       end if;
+      result.Xs := new Real_Vector(1..resultlen);
+
       if resultlen > like.Xs'Length then
          bigger                    := True;
          result.Xs (like.Xs'Range) := like.Xs.all;
@@ -614,6 +616,7 @@ package body wave is
    begin
       GNAT.awk.Set_Field_Separators(separator);
       begin
+         Put_Line(filename);
          GNAT.awk.Open(filename => filename);
       exception
          when others => Put("Exception opening "); Put_Line(filename);
@@ -659,7 +662,7 @@ package body wave is
       end loop ;
       GNAT.awk.Close(GNAT.awk.Current_Session.all);
 
-      result.sample_rate := Integer(1.0 / (result.samples(2) - result.samples(1))) ;
+      result.sample_rate := Integer(1.0 / (result.Xs(2) - result.Xs(1))) ;
       w := result;
    exception
       when others => 
