@@ -26,7 +26,7 @@ jobs:
 
     - name: Build
       run: >
-        ./build.sh
+        pushd examples ; ./build.sh ; popd
       shell: bash
                 
     - name: Publish
@@ -34,6 +34,4 @@ jobs:
       with:
           name: "artifacts"
           path: |
-            ./bin/sinusoid 
-            ./bin/chirp 
-            ./bin/echirp
+            ./examples/examples.zip
