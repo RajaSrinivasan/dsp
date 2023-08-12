@@ -38,11 +38,6 @@ jobs:
         r-version: '4.1'
         token:  ${{ secrets.GITHUB_TOKEN }}
 
-steps:
-- uses: actions/checkout@master
-- uses: nikeee/setup-pandoc@v1
-- run: echo "# Test" | pandoc -t html
-
     - name: Install dependencies
       run: |
         R -e "install.packages('rmarkdown')"
