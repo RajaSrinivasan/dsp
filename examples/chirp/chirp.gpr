@@ -1,5 +1,5 @@
 with "config/chirp_config.gpr";
-with "../lib/lib.gpr";
+with "../../lib/lib.gpr";
 
 project Chirp is
 
