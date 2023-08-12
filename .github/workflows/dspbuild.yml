@@ -33,6 +33,7 @@ jobs:
       uses: r-lib/actions/setup-r@v1
       with:
         r-version: '4.1'
+        token:  ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install dependencies
       run: |
