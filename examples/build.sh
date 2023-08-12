@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pushd lib
+pushd ../lib
 alr build
 popd
 
@@ -16,11 +16,14 @@ pushd echirp
 alr build
 popd
 
-pushd examples
-   pushd audio
-   alr build
-   popd
-   pushd spect
-   alr build
-   popd
+pushd audio
+alr build
+popd
+
+pushd spect
+alr build
+popd
+
+pushd freqd
+alr build
 popd
