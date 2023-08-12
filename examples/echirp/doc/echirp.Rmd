@@ -1,0 +1,64 @@
+---
+title: "Exponential Chirp"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Objectives
+
+In this project, we try to visualize the **echirp** - the exponential chirp signal.
+
+In addition, for plotting, we will use the **ggplot2** and **plotly** libraries.
+
+## Exponential Chirp
+
+The utility echirp can generate an exponential chirp signal of a specified frequencies.
+
+```
+usage: echirp outputfilename [amplitude=1.0 [startfreq=220 endfreq=440]]
+```
+
+
+## Setup the environment
+```{r}
+library(dplyr)
+library(ggplot2)
+library(plotly)
+```
+\newpage
+
+## Basic exponential chirp signal - time domain
+
+Generate a simple echirp signal frequency range 5 - 50 Hz.
+
+```{bash}
+../../bin/echirp echirp.csv 1 5 50
+```
+
+## Time domain plot
+
+```{r}
+echirp<-read.csv("echirp.csv")
+names(echirp)<-c("t","y")
+ggplot(echirp,aes(x=t,y=y))+geom_line()
+```
+
+\newpage
+
+## Frequency Domain
+
+This chart is generated browsable by using **ggplotly**.
+
+```{r}
+fechirp <- data.frame( f = seq( 0, nrow(echirp) - 1 ) / ( nrow(echirp) * diff( echirp$t[ 1:2 ] ) ) )
+fechirp$mag <- Mod( fft( echirp$y ) )
+p<-ggplot(slice_head(fechirp,n=as.integer(nrow(fechirp/10))),aes(x=f,y=mag))+geom_line()
+ggplotly(p)
+```
+
+
