@@ -16,6 +16,10 @@ pushd echirp
 alr build
 popd
 
+pushd triangle
+alr build
+popd
+
 pushd audio
 alr build
 popd
