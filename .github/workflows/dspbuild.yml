@@ -46,12 +46,6 @@ jobs:
     - name: Build R Markdown
       run: |
         R -e "rmarkdown::render('examples/sinusoid/doc/sinusoid.Rmd')"
-        R -e "rmarkdown::render('examples/chirp/doc/chirp.Rmd')"
-        R -e "rmarkdown::render('examples/echirp/doc/echirp.Rmd')"
-        R -e "rmarkdown::render('examples/triangle/doc/triangle.Rmd')"
-        R -e "rmarkdown::render('examples/arith/doc/arith.Rmd')"
-        R -e "rmarkdown::render('examples/freqd/doc/freqd.Rmd')"
-        R -e "rmarkdown::render('examples/spect/doc/spect.Rmd')"
         zip docs.zip */doc/*.pdf */doc/*.html
 
     - name: Publish
