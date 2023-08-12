@@ -36,7 +36,7 @@ jobs:
     - name: Set up R
       uses: r-lib/actions/setup-r@v2
       with:
-        r-version: '4.1'
+        r-version: '4.2'
         token:  ${{ secrets.GITHUB_TOKEN }}
 
     - name: Install dependencies
@@ -46,6 +46,13 @@ jobs:
     - name: Build R Markdown
       run: |
         R -e "rmarkdown::render('examples/sinusoid/doc/sinusoid.Rmd')"
+        R -e "rmarkdown::render('examples/chirp/doc/chirp.Rmd')"
+        R -e "rmarkdown::render('examples/echirp/doc/echirp.Rmd')"
+        R -e "rmarkdown::render('examples/triangle/doc/triangle.Rmd')"
+        R -e "rmarkdown::render('examples/arith/doc/arith.Rmd')"
+        R -e "rmarkdown::render('examples/freqd/doc/freqd.Rmd')"
+        R -e "rmarkdown::render('examples/spect/doc/spect.Rmd')"
+        zip docs.zip */doc/*.pdf */doc/*.html
 
     - name: Publish
       uses: actions/upload-artifact@v3
@@ -53,3 +60,4 @@ jobs:
           name: "artifacts"
           path: |
             ./examples/examples.zip
+            ./examples/docs.zip
