@@ -27,3 +27,5 @@ popd
 pushd freqd
 alr build
 popd
+
+zip examples.zip bin/*
