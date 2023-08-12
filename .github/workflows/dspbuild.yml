@@ -40,7 +40,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        R -e "install.packages('rmarkdown')"
+        R -e "install.packages(c('dplyr','ggplot2','plotly','rmarkdown'))"
 
     - name: Build R Markdown
       run: |
