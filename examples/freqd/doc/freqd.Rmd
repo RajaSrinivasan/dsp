@@ -22,8 +22,8 @@ retained.
 
 ## Triangle 
 ```{bash}
-../../triangle/bin/triangle triangle.csv 4
-../bin/freqd triangle.csv 0.08
+../../bin/triangle triangle.csv 4
+../../bin/freqd triangle.csv 0.08
 ```
 
 ## Original Signal 
@@ -67,8 +67,8 @@ ggplot(signalre,aes(x=x,y=y))+
 ## Sinusoid
 
 ```{bash}
-../../../bin/sinusoid sinusoid.csv 8
-../bin/freqd sinusoid.csv 0.07
+../../bin/sinusoid sinusoid.csv 8
+../../bin/freqd sinusoid.csv 0.07
 ```
 
 ```{r}
