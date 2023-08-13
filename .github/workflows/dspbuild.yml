@@ -46,7 +46,6 @@ jobs:
     - name: Build R Markdown
       run: |
         R -e "rmarkdown::render('examples/chirp/doc/chirp.Rmd')"
-        zip docs.zip */doc/*.pdf */doc/*.html
 
     - name: Publish
       uses: actions/upload-artifact@v3
