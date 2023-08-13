@@ -41,10 +41,11 @@ jobs:
 
     - name: Install dependencies
       run: |
-        R -e "install.packages(c('dplyr','ggplot2','plotly','rmarkdown'))"
+        R -e "install.packages(c('dplyr','ggplot2','plotly','tinytex','rmarkdown'))"
 
     - name: Build R Markdown
       run: |
+        R -e "tinytex::install_tinytex()"
         R -e "rmarkdown::render('examples/chirp/doc/chirp.Rmd')"
 
     - name: Publish
