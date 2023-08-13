@@ -76,7 +76,7 @@ plot_signal(combined,"brown")
 ## Frequency Domain
 
 ```{bash}
-../../freqd/bin/freqd arith_combined.csv  0.25
+../../bin/freqd arith_combined.csv  0.25
 ```
 
 ```{r}
