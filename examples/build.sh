@@ -20,6 +20,10 @@ pushd triangle
 alr build
 popd
 
+pushd arith
+alr build
+popd
+
 pushd audio
 alr build
 popd

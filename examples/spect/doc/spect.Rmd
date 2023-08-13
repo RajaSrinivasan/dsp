@@ -14,7 +14,7 @@ knitr::opts_chunk$set(echo = TRUE)
 This generates a sinusoid 4 Hz, 1 second, sampled 200 Hz.
 
 ```{bash}
-../bin/spect sin
+../../bin/spect sin
 ```
 
 ## Plot the signal freq analysis
@@ -53,7 +53,7 @@ ggplot(signal,aes(x=x,y=y))+geom_point(colour="red", size=5,show.legend=TRUE)+th
 ## Square Wave
 
 ```{bash}
-../bin/spectsq sq
+../../bin/spectsq sq
 ```
 
 In this case, we use a much lower sampling frequency. The impact of the lower number of component sinusoids on the accuracy of the synthesis results should be obvious.

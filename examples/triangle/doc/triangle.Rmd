@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{bash}
-../bin/triangle triangle.csv 2
+../../bin/triangle triangle.csv 2
 ```
 
 
