@@ -52,6 +52,8 @@ jobs:
         R -e "rmarkdown::render('examples/arith/doc/arith.Rmd')"
         R -e "rmarkdown::render('examples/freqd/doc/freqd.Rmd')"
         R -e "rmarkdown::render('examples/spect/doc/spect.Rmd')"
+        R -e "rmarkdown::render('examples/audio/doc/audio.Rmd')"
+
         cd examples ; zip docs.zip */*/*.pdf */*/*.html
 
     - name: Publish
