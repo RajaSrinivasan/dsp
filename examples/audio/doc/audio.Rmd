@@ -1,0 +1,37 @@
+---
+title: "audio"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{bash}
+../../bin/audio ../etc/Cartoon-02.wav
+../../bin/freqd ../etc/Cartoon-02.wav.csv 0.5
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+signal<-read.csv("../etc/Cartoon-02.wav.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_point()
+```
+
+
+## Spectrum
+
+```{r}
+signalfft<-read.csv("../etc/Cartoon-02.wav.csv.csv",header=FALSE,sep=",")
+names(signalfft)<-c("freq","rex","imx","mod","arg")
+dominant<-signalfft %>% slice_head(n=256)
+barplot(dominant$mod,col="steelblue",names.arg=dominant$freq,xlab="Frequency")
+```
+
+
+
+
+

@@ -260,11 +260,14 @@ package body sndfile is
          if readframes < 1 then
             exit;
          end if;
-         Put ("Read ");
-         Put (readframes);
-         Put (" frames. Current frame ");
-         Put (CURFRAME);
-         New_Line;
+         if verbose
+         then
+            Put ("Read ");
+            Put (readframes);
+            Put (" frames. Current frame ");
+            Put (CURFRAME);
+            New_Line;
+         end if;
          for frame in 1 .. readframes loop
             result.ch1 (CURFRAME) := BLOCK (integer (frame));
             if f.info.channels > 1 then

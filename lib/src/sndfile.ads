@@ -6,7 +6,7 @@ with wave;
 
 package sndfile is
 
-   verbose : Boolean := True;
+   verbose : Boolean := False;
 
    function Version return Interfaces.C.Strings
      .chars_ptr  -- ../sndfile.h:659
