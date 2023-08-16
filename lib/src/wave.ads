@@ -48,20 +48,6 @@ package wave is
    function "*" (Left : Wave_Type; Right : Wave_Type) return Wave_Type;
    function "/" (Left : Wave_Type; Right : Wave_Type) return Wave_Type;
 
-   -- Strength of the vector p-Norm
-   function Norm (w : Wave_Type; p : Integer := 2) return Float;
-   function Energy (w : Wave_Type) return Float;       -- 2-Norm
-   function Max (w : Wave_Type) return Float;           -- 1-Norm
-   function Min (w : Wave_Type) return Float;
-
-   -- procedure Normalize( w : in out Wave_Type );
-   function Normalize (w : Wave_Type) return Wave_Type;
-   function InnerProduct (x : Wave_Type; y : Wave_Type) return Complex;
-   function Dot (x : Wave_Type; y : Wave_Type) return Complex renames
-     InnerProduct;
-   function Angle (x : Wave_Type; y : Wave_Type) return Float;
-   function Orthogonal (x : Wave_Type; y : Wave_Type) return Boolean;
-
    type Generator is interface;
    function Value (g : in out Generator; arg : Float) return Float is abstract;
 
@@ -81,6 +67,8 @@ package wave is
    procedure Transform (s : System; w : in out Wave_Type) is abstract;
    ------------------------------------
 
+   function Normalize (w : Wave_Type) return Wave_Type;
+   
    function Apply
      (w : windows.Window_Type'Class; wi : Wave_Type; offset : Integer)
       return Wave_Type;
