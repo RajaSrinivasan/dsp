@@ -18,7 +18,7 @@ package wave is
       Xs          : access Ada.Numerics.Real_Arrays.Real_Vector;
       case real is
          when True =>
-            samples : access Ada.Numerics.Real_Arrays.Real_Vector;
+            samples : aliased access Ada.Numerics.Real_Arrays.Real_Vector;
          when False =>
             csamples : access Ada.Numerics.Complex_Arrays.Complex_Vector;
       end case;
@@ -68,7 +68,7 @@ package wave is
    ------------------------------------
 
    function Normalize (w : Wave_Type) return Wave_Type;
-   
+
    function Apply
      (w : windows.Window_Type'Class; wi : Wave_Type; offset : Integer)
       return Wave_Type;

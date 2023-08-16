@@ -2,12 +2,13 @@ pragma Ada_2012;
 pragma Style_Checks (Off);
 pragma Warnings ("U");
 
-with Interfaces.C; use Interfaces.C;
+with System;
+with Interfaces.C; -- use Interfaces.C;
 
 package gsl.statistics is
 
    function mean
-     (data : access float;
+     (data : System.Address ;
       stride : size_t;
       n : size_t) return double  -- /usr/include/gsl/gsl_statistics_float.h:38
    with Import => True, 
@@ -15,7 +16,7 @@ package gsl.statistics is
         External_Name => "gsl_stats_float_mean";
 
    function variance
-     (data : access float;
+     (data : System.Address ; -- access float;
       stride : size_t;
       n : size_t) return double  -- /usr/include/gsl/gsl_statistics_float.h:39
    with Import => True, 
@@ -23,7 +24,7 @@ package gsl.statistics is
         External_Name => "gsl_stats_float_variance";
 
    function sd
-     (data : access float;
+     (data : System.Address ; -- access float;
       stride : size_t;
       n : size_t) return double  -- /usr/include/gsl/gsl_statistics_float.h:40
    with Import => True, 
@@ -40,7 +41,7 @@ package gsl.statistics is
         External_Name => "gsl_stats_float_variance_with_fixed_mean";
 
    function sd_with_fixed_mean
-     (data : access float;
+     (data : System.address ; --access float;
       stride : size_t;
       n : size_t;
       mean : double) return double  -- /usr/include/gsl/gsl_statistics_float.h:42
@@ -98,9 +99,9 @@ package gsl.statistics is
         External_Name => "gsl_stats_float_lag1_autocorrelation";
 
    function covariance
-     (data1 : access float;
+     (data1 : System.Address ; -- access float;
       stride1 : size_t;
-      data2 : access float;
+      data2 : System.Address ; -- access float;
       stride2 : size_t;
       n : size_t) return double  -- /usr/include/gsl/gsl_statistics_float.h:51
    with Import => True, 
@@ -108,9 +109,9 @@ package gsl.statistics is
         External_Name => "gsl_stats_float_covariance";
 
    function correlation
-     (data1 : access float;
+     (data1 : System.Address ; -- access float;
       stride1 : size_t;
-      data2 : access float;
+      data2 : System.Address ; -- access float;
       stride2 : size_t;
       n : size_t) return double  -- /usr/include/gsl/gsl_statistics_float.h:52
    with Import => True, 
