@@ -41,6 +41,7 @@ package body wave is
          result.Xs (r)      := result.Xs (r - 1) + delta_t;
          result.samples (r) := default;
       end loop;
+      --Put(result.Xs(1)); Put(result.Xs(count)); New_Line;
       return result;
    end Create;
    function Create
