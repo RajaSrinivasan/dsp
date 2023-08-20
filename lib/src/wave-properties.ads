@@ -19,5 +19,6 @@ package wave.properties is
 
     function Correlation( x : wave_type ; y : wave_type ) return Float ;
     function Covariance( x : wave_type ; y : wave_type ) return Float ;
-
+    function Autocorrelation( x : wave_type ) return Wave_Type ;
+    
 end wave.properties ;

@@ -1,6 +1,8 @@
 with Ada.Numerics.Elementary_Functions;
 with Interfaces.C; use Interfaces.C;
 with gsl.statistics;
+
+with systems;
 package body wave.properties is
 
    function Max (w : Wave_Type) return Float is
@@ -126,17 +128,6 @@ package body wave.properties is
       return Angle (x, y) < epsilon;
    end Orthogonal;
 
-
-   function correlation
-     (data1 : access float;
-      stride1 : size_t;
-      data2 : access float;
-      stride2 : size_t;
-      n : size_t) return double  -- /usr/include/gsl/gsl_statistics_float.h:52
-   with Import => True, 
-        Convention => C, 
-        External_Name => "gsl_stats_float_correlation";
-
     function Correlation( x : wave_type ; y : wave_type ) return Float is
         result : Interfaces.C.double;
     begin
@@ -170,5 +161,22 @@ package body wave.properties is
                                               size_t(x.samples'Length));
         return Float(result);
     end Covariance;
+
+    function Autocorrelation( x : wave_type ) return Wave_Type is
+      result : constant Wave_Type := Create( like => x);
+      shifter : constant systems.Shift := ( slots => 1) ;
+      temp : Wave_Type := Create( like => result);
+    begin
+      for xidx in result.Xs'Range
+      loop
+         declare
+            shifted : constant Wave_Type := systems.Transform(shifter,temp);
+         begin
+            result.samples(xidx) := Correlation(x,temp);
+            temp := shifted;
+         end ;
+      end loop;
+      return result;
+    end Autocorrelation;
 
 end wave.properties;
