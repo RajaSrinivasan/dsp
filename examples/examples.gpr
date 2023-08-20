@@ -19,6 +19,8 @@ abstract project examples is
       case lib_config.Alire_Host_OS is
          when "macos" =>
             for Switches("Ada") use ("-L/opt/homebrew/lib","-lgsl","-lgslcblas","-lsndfile");
+         when others =>
+            for Switches("Ada") use ("-lgsl","-lgslcblas","-lsndfile");
       end case;
    end Linker;
 
