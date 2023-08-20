@@ -82,6 +82,4 @@ ggplot(signal,aes(x=x,y=y))+
 ```
 
 
-  
-
 
