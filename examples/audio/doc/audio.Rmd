@@ -9,14 +9,18 @@ output: pdf_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 ```{bash}
-../../bin/audio ../etc/Cartoon-02.wav
-../../bin/freqd ../etc/Cartoon-02.wav.csv 0.5
+export soundfile=../../../etc/water_flow.wav
+../../bin/audio $soundfile
+../../bin/freqd ${soundfile}.csv 0.5
 ```
 
 ```{r}
 library(ggplot2)
 library(dplyr)
-signal<-read.csv("../etc/Cartoon-02.wav.csv",header=FALSE,sep=",")
+#soundfile<-"../../../etc/water_flow.wav"
+#soundfile2<-"../etc/Cartoon-02.wav"
+
+signal<-read.csv("../../../etc/water_flow.wav.csv",header=FALSE,sep=",")
 names(signal)<-c("x","y")
 ggplot(signal,aes(x=x,y=y))+geom_point()
 ```
@@ -25,10 +29,10 @@ ggplot(signal,aes(x=x,y=y))+geom_point()
 ## Spectrum
 
 ```{r}
-signalfft<-read.csv("../etc/Cartoon-02.wav.csv.csv",header=FALSE,sep=",")
+signalfft<-read.csv("../../../etc/water_flow.wav.csv.csv",header=FALSE,sep=",")
 names(signalfft)<-c("freq","rex","imx","mod","arg")
 dominant<-signalfft %>% slice_head(n=256)
-barplot(dominant$mod,col="steelblue",names.arg=dominant$freq,xlab="Frequency")
+barplot(signalfft$mod,col="steelblue",names.arg=signalfft$freq,xlab="Frequency")
 ```
 
 

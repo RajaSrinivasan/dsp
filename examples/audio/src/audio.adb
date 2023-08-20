@@ -17,7 +17,7 @@ procedure Audio is
    xptr : Integer := 1;
    wptr : Integer := 1;
 begin
-   Put_Line( Interfaces.C.Strings.Value(sndfile.Version) );
+   Put_Line(Interfaces.C.Strings.Value(sndfile.Version));
    soundfile := sndfile.Open(soundfilename);
    info := sndfile.Info(soundfile);
    sndwave := wave.Create(Integer(info.samplerate), 
