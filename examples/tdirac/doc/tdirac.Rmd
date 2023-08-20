@@ -1,0 +1,44 @@
+---
+title: "tdirac"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{bash}
+../../bin/tdirac tdirac.csv
+../../bin/freqd tdirac.csv
+```
+
+## Load the table of values and plot
+
+```{r}
+library(dplyr)
+library(ggplot2)
+
+values<-read.csv("tdirac.csv")
+names(values)<-c("x","y")
+ggplot(values,aes(x=x,y=y))+geom_point()
+
+signalfft<-read.csv("tdirac.csv.csv",header=FALSE,sep=",")
+names(signalfft)<-c("freq","rex","imx","mod","arg")
+ggplot(signalfft,aes(x=freq,y=mod))+geom_line()
+ggplot(signalfft,aes(x=rex,y=imx))+geom_line()
+dominant<-signalfft %>% slice_head(n=10)
+barplot(signalfft$mod,col="steelblue",names.arg=signalfft$freq,xlab="Frequency")
+
+signalre<-read.csv("tdirac.csv_re.csv",header=FALSE,sep=",")
+names(signalre) <- c("x","y")
+signalre <- signalre %>% mutate(yorig=c(0,values$y))
+ggplot(signalre,aes(x=x,y=y))+
+      geom_line(colour="red",linewidth=1)+
+      geom_line(aes(y=yorig),color="blue",linewidth=1)+
+      theme(legend.position = "bottom")
+
+
+```
