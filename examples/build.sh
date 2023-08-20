@@ -36,4 +36,8 @@ pushd freqd
 alr build
 popd
 
+pushd tdirac
+alr build
+popd
+
 zip examples.zip bin/*
