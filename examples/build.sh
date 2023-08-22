@@ -40,4 +40,8 @@ pushd tdirac
 alr build
 popd
 
+pushd stats
+alr build
+popd
+
 zip examples.zip bin/*
