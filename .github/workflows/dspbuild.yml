@@ -53,6 +53,7 @@ jobs:
         R -e "rmarkdown::render('examples/freqd/doc/freqd.Rmd')"
         R -e "rmarkdown::render('examples/spect/doc/spect.Rmd')"
         R -e "rmarkdown::render('examples/audio/doc/audio.Rmd')"
+        R -e "rmarkdown::render('examples/stats/doc/stats.Rmd')"
 
         cd examples ; zip docs.zip */*/*.pdf */*/*.html
 
