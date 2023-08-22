@@ -3,7 +3,7 @@ with "../examples.gpr";
 project Stats is
 
    for Source_Dirs use ("src/", "config/");
-   for Main use ("stats.adb");
+   for Main use ("stats.adb","tcorr.adb","tcorrsig.adb");
 
    for Create_Missing_Dirs use "True";
    for Exec_Dir use examples'Exec_Dir ;

@@ -1,0 +1,98 @@
+---
+title: "stats"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Compute Autocorrelation
+
+## Sinusoid
+
+```{bash}
+../../bin/tcorr tcorr
+```
+
+```{r}
+library(ggplot2)
+library(dplyr)
+signal<-read.csv("tcorr_sine.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_line()
+```
+
+## Brownian noise
+
+```{r}
+signal<-read.csv("tcorr_bnoise.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_line()
+```
+
+## Linear Chrip
+
+
+```{r}
+signal<-read.csv("tcorr_chirp.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_line()
+```
+
+## Exponential Chirp
+
+```{bash}
+../../bin/echirp echirp.csv
+../../bin/tcorrsig echirp.csv
+```
+
+```{r}
+signal<-read.csv("echirp.csv_acorr.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+ggplot(signal,aes(x=x,y=y))+geom_line()
+```
+
+## Linear Chirp High freq
+
+
+```{bash}
+../../bin/chirp chirp.csv 1 200 5000
+../../bin/tcorrsig chirp.csv
+```
+
+### Head segment
+
+```{r}
+signal<-read.csv("chirp.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+headsignal<-signal %>% slice_head(n=128)
+#names(headsignal)<-c("x","y")
+ggplot(headsignal,aes(x=x,y=y))+geom_line()
+```
+
+### Somewhere in the middle
+
+```{r}
+midsignal<-signal %>% filter(between(row_number(),500,628))
+names(midsignal) <- c("x","y")
+ggplot(midsignal,aes(x=x,y=y))+geom_line()
+```
+
+### Tail of the signal
+
+```{r}
+tailsignal<-signal %>% slice_tail(n=128)
+names(tailsignal) <- c("x","y")
+ggplot(tailsignal,aes(x=x,y=y))+geom_line()
+```
+
+### Autocorrelation - Just the head
+
+```{r}
+signal<-read.csv("chirp.csv_acorr.csv",header=FALSE,sep=",")
+names(signal)<-c("x","y")
+signalacorrhead<- signal %>% slice_head(n=1000) %>% filter(row_number()>2)
+ggplot(signalacorrhead,aes(x=x,y=y))+geom_line()
+```

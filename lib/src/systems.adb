@@ -114,15 +114,19 @@ package body systems is
    end Transform;
 
    procedure Transform (s : Shift; w : in out Wave_Type) is
+      fptr : Integer ;
    begin
       for valp in w.Xs'Range loop
+         fptr := valp + s.slots ;
+         if fptr > w.Xs'Length
+         then
+            fptr := w.Xs'First;
+         end if;
          case w.real is
             when True =>
-               w.samples (valp) :=
-                 w.samples ((valp + s.slots) mod w.Xs'Length);
+               w.samples (valp) := w.samples (fptr);
             when False =>
-               w.csamples (valp) :=
-                 w.csamples ((valp + s.slots) mod w.Xs'Length);
+               w.csamples (valp) := w.csamples (fptr);
          end case;
       end loop;
    end Transform;
