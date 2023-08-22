@@ -2,12 +2,12 @@ pragma Ada_2012;
 pragma Style_Checks (Off);
 pragma Warnings ("U");
 
-with Interfaces.C; --use Interfaces.C;
-
-with gsl.movstat;
-with gsl.vector_double ;
-
 with System;
+with Interfaces.C; use Interfaces.C;
+
+with gsl.movstat ;
+with gsl.vector_double;
+
 with gsl.vector_int;
 
 package gsl.filter is
@@ -26,10 +26,10 @@ package gsl.filter is
    with Convention => C;  -- /usr/include/gsl/gsl_filter.h:54
 
    --  skipped anonymous struct anon_anon_120
-
+     subtype DoublePtr is System.Address ;
    type gsl_filter_gaussian_workspace is record
       K : aliased size_t;  -- /usr/include/gsl/gsl_filter.h:59
-      kernel : access double;  -- /usr/include/gsl/gsl_filter.h:60
+      kernel : DoublePtr;  -- /usr/include/gsl/gsl_filter.h:60
       movstat_workspace_p : access gsl.movstat.gsl_movstat_workspace;  -- /usr/include/gsl/gsl_filter.h:61
    end record
    with Convention => C_Pass_By_Copy;  -- /usr/include/gsl/gsl_filter.h:62
@@ -96,7 +96,7 @@ package gsl.filter is
       H : aliased size_t;  -- /usr/include/gsl/gsl_filter.h:83
       K : aliased size_t;  -- /usr/include/gsl/gsl_filter.h:84
       state : System.Address;  -- /usr/include/gsl/gsl_filter.h:85
-      window : access double;  -- /usr/include/gsl/gsl_filter.h:86
+      window : DoublePtr;  -- /usr/include/gsl/gsl_filter.h:86
       minmaxacc : access constant gsl.movstat.gsl_movstat_accum;  -- /usr/include/gsl/gsl_filter.h:87
       movstat_workspace_p : access gsl.movstat.gsl_movstat_workspace;  -- /usr/include/gsl/gsl_filter.h:88
    end record
