@@ -1,7 +1,14 @@
+with System;
+with Interfaces.C.Strings; use Interfaces.C.Strings;
+with Ada.Text_Io; use Ada.Text_Io;
 with GNAT.Random_Numbers;
+with gsl.rng;
 package body signal.noise is
 
    gen : GNAT.Random_Numbers.Generator;
+   gslgen : access constant gsl.rng.gsl_rng_type;
+   gslrng : access gsl.rng.gsl_rng;
+
    function Value (g : in out UncorrelatedNoise_Type; arg : Float) return Float
    is
       rf : Float;
@@ -25,44 +32,14 @@ package body signal.noise is
       return g.cumsum;
    end Value;
 
-   --  overriding
-   --  procedure Generate( sig : BrownianNoise_Type ;
-   --                      samples : Wave.Samples_PtrType ) is
-   --     rf : float ;
-   --     cumsum : float := 0.0 ;
-   --     max,min : float ;
-   --     bamp : float ;
-   --  begin
-   --     for samp in samples'Range
-   --     loop
-   --        rf := GNAT.Random_Numbers.Random(gen) - 0.5 ;
-   --        if samp = samples'first
-   --        then
-   --           samples(samp).y := rf ;
-   --           cumsum := rf ;
-   --           max := cumsum ;
-   --           min := cumsum ;
-   --        else
-   --           cumsum := cumsum + rf ;
-   --           samples(samp).y := cumsum ;
-   --           if samples(samp).y > max
-   --           then
-   --              max := samples(samp).y ;
-   --           end if ;
-   --           if samples(samp).y < min
-   --           then
-   --              min := samples(samp).y ;
-   --           end if ;
-   --        end if ;
-   --     end loop ;
-   --     bamp := max - min ;
-   --     for samp in samples'Range
-   --     loop
-   --        samples(samp).y := 2.0 * sig.amplitude * (samples(samp).y-min)/bamp - sig.amplitude ;
-   --     end loop ;
-   --
-   --  end Generate;
-   --
+   procedure Show is
+   begin
+      Put("Name : "); Put( Value(gsl.rng.gsl_rng_name(gslrng))); 
+      New_Line;
+   end Show ;
+
 begin
    GNAT.Random_Numbers.Reset (gen);
+   gslgen := gsl.rng.gsl_rng_env_setup;
+   gslrng := gsl.rng.gsl_rng_alloc(gslgen);
 end signal.noise;
