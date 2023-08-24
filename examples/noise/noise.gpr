@@ -1,0 +1,20 @@
+with "config/noise_config.gpr";
+with "../examples.gpr";
+project Noise is
+
+   for Source_Dirs use ("src/", "config/");
+   for Object_Dir use "obj/" & Noise_Config.Build_Profile;
+   for Create_Missing_Dirs use "True";
+
+   for Source_Dirs use ("src/", "config/");
+   for Main use ("noise.adb");
+
+   for Create_Missing_Dirs use "True";
+   for Exec_Dir use examples'Exec_Dir ;
+   for Object_Dir use examples'Object_Dir ;
+
+   package Binder renames examples.Binder;
+   package Install renames examples.Install;
+   package Linker renames examples.Linker ;
+
+end Noise;
