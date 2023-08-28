@@ -1,9 +1,9 @@
-with "config/stats_config.gpr";
+with "config/square_config.gpr";
 with "../examples.gpr";
-project Stats is
+project Square is
 
    for Source_Dirs use ("src/", "config/");
-   for Main use ("stats.adb","tcorr.adb","tcorrsig.adb","tconvsig.adb");
+   for Main use ("square.adb");
 
    for Create_Missing_Dirs use "True";
    for Exec_Dir use examples'Exec_Dir ;
@@ -13,4 +13,4 @@ project Stats is
    package Install renames examples.Install;
    package Linker renames examples.Linker ;
 
-end Stats;
+end Square ;

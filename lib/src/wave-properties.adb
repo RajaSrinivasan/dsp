@@ -1,4 +1,6 @@
 with Ada.Numerics.Elementary_Functions;
+with Ada.Text_IO; use Ada.Text_IO;
+with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Interfaces.C; use Interfaces.C;
 with gsl.statistics;
 
@@ -178,5 +180,24 @@ package body wave.properties is
       end loop;
       return result;
     end Autocorrelation;
+
+   function Convolve( x : wave_type ; w : wave_type ) return Wave_Type is
+      result : Wave_Type := Create( like => x );
+      ptr : Integer ;
+      sum : Float ;
+   begin
+      for xptr in result.Xs'Range
+      loop
+         sum := 0.0 ;
+         for xxptr in x.Xs'Range
+         loop
+            ptr := xptr - xxptr ;
+            --Put(ptr); New_Line;
+            sum := sum + x.samples(xxptr) * w.samples(ptr mod w.Xs'Length +1);
+         end loop;
+         result.samples(xptr) := sum ;
+      end loop ;
+      return result;
+   end Convolve ;
 
 end wave.properties;

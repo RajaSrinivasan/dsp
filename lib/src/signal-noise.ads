@@ -13,6 +13,11 @@ package signal.noise is
    end record;
    function Value (g : in out BrownianNoise_Type; arg : Float) return Float;
 
+   type GSLNoise_Type is new NonPeriodic_Signal_Type and
+     wave.Generator with null record;
+   function Value
+     (g : in out GSLNoise_Type; arg : Float) return Float;
+
     -- Noise generators
     procedure Show;
     

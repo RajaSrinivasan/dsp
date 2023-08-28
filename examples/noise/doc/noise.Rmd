@@ -1,0 +1,64 @@
+---
+title: "noise"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Noise - using GSL random numbers
+
+```{bash}
+../../bin/noise noise_default.csv
+```
+
+The above uses the default **taus** random number generator. 
+
+## Default Random Number generator
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+library(ggpubr)
+theme_set(theme_pubr())
+
+noiseplot <- function (csvname,title) {
+  signal<-read.csv(csvname,header=FALSE,sep=",")
+  names(signal)<-c("x","y")
+  p<-ggplot(signal,aes(x=x,y=y))+geom_line()
+  #h<-hist(signal$y,main=title,xlab="bins")
+  h<-ggplot(signal,aes(x=y))+geom_histogram(binwidth = max(signal$y)/10.0 , colour="black", fill="white") + 
+    geom_density(alpha=.2, fill="#FF6666") 
+  ggarrange(
+  p, h, labels = c("P", "H"),
+  common.legend = TRUE, legend = "bottom"
+  )
+  #h
+}
+
+noiseplot("noise_default.csv","Default Uniform Random Numbers")
+
+```
+
+\newpage
+
+## Different generator - Knuth
+
+```{bash}
+GSL_RNG_TYPE=knuthran2002 ../../bin/noise noise_knuth.csv
+```
+```{r}
+noiseplot("noise_knuth.csv","Knuth 2002 - Uniform Random Numbers")
+```
+
+
+## Nornalized
+
+```{r}
+noiseplot("noise_knuth.csv_norm.csv","Knuth 2002 - Normalized Uniform Random Numbers")
+```

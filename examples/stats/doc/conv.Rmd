@@ -1,0 +1,50 @@
+---
+title: "conv"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Generate 2 square waves
+```{bash}
+../../bin/square wave.csv 1.0 1.0 0.0
+../../bin/square window.csv 1.0 1.0 0.0
+```
+
+## The wave forms
+
+```{r}
+library(ggplot2)
+library(dplyr)
+
+library(ggpubr)
+theme_set(theme_pubr())
+
+sqwave<-read.csv("wave.csv",header=FALSE,sep=",")
+names(sqwave)<-c("x","y")
+
+winwave<-read.csv("window.csv",header=FALSE,sep=",")
+names(winwave)<-c("x","y")
+
+ggplot(sqwave,aes(x=x,y=y))+geom_line()
+ggplot(winwave,aes(x=x,y=y))+geom_line()+xlim(0.0,2.0)
+
+```
+
+## Convolve
+```{bash}
+../../bin/tconvsig wave.csv window.csv
+```
+
+```{r}
+convwave <- read.csv("wave.csv_conv.csv",,header=FALSE,sep=",")
+names(convwave) <- c("x","y")
+ggplot(convwave,aes(x=x,y=y))+geom_line()
+```
+
+
+

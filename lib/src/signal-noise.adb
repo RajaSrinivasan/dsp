@@ -1,6 +1,8 @@
 with System;
 with Interfaces.C.Strings; use Interfaces.C.Strings;
 with Ada.Text_Io; use Ada.Text_Io;
+with Ada.Integer_Text_Io; use Ada.Integer_Text_Io;
+with Ada.Long_Integer_Text_Io; use Ada.Long_Integer_Text_Io;
 with GNAT.Random_Numbers;
 with gsl.rng;
 package body signal.noise is
@@ -32,9 +34,20 @@ package body signal.noise is
       return g.cumsum;
    end Value;
 
+   function Value
+     (g : in out GSLNoise_Type; arg : Float) return Float is
+     result : Float ;
+   begin
+      result := Float( gsl.rng.gsl_rng_uniform(gslrng) ) ;
+      return result;
+   end Value ;
+
    procedure Show is
    begin
-      Put("Name : "); Put( Value(gsl.rng.gsl_rng_name(gslrng))); 
+      Put("Name : "); Put( Value(gsl.rng.gsl_rng_name(gslrng))); Put( " ");
+      Put("Seed : "); Put( Long_Integer(gsl.rng.gsl_rng_default_seed) ); Put( " ");
+      Put("Max  : "); Put( Long_Integer(gsl.rng.gsl_rng_max(gslrng))) ; Put(" ");
+      Put("Min  : "); Put( Integer(gsl.rng.gsl_rng_min(gslrng))) ; Put(" ");
       New_Line;
    end Show ;
 
