@@ -8,6 +8,7 @@ with signal.noise;
 
 with wave; use wave;
 with spectrum;
+with spectrum.fft;
 with windows;
 
 procedure SpectSq is
@@ -19,8 +20,8 @@ procedure SpectSq is
 begin
    wave.Generate (w, sq);
    wave.Print(w,Argument(1) & "_orig.csv");
-   s := spectrum.Analyze (w);
+   s := spectrum.fft.Analyze (w);
    spectrum.Print (s, Argument (1) & ".csv");
-   wo := spectrum.Synthesize (s);
+   wo := spectrum.fft.Synthesize (s);
    wave.Print (wo, Argument (1) & "_re.csv");
 end SpectSq ;

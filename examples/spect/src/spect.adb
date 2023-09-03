@@ -12,6 +12,7 @@ with signal.test;
 
 with wave; use wave;
 with spectrum;
+with spectrum.fft;
 with windows;
 
 procedure Spect is
@@ -22,8 +23,8 @@ procedure Spect is
    wo : wave.Wave_Type;
 begin
    wave.Generate (w, sin);
-   s := spectrum.Analyze (w);
+   s := spectrum.fft.Analyze (w);
    spectrum.Print (s, Argument (1) & ".csv");
-   wo := spectrum.Synthesize (s);
+   wo := spectrum.fft.Synthesize (s);
    wave.Print (wo, Argument (1) & "_re.csv");
 end Spect;

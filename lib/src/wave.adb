@@ -5,7 +5,7 @@ with Ada.Integer_Text_IO; use Ada.Integer_Text_IO;
 with Ada.Numerics.Elementary_Functions;
 with GNAT.awk ;
 with GNAT.current_exception;
-
+with signal.sinusoid;
 with systems;
 with wave.properties;
 package body wave is
@@ -53,16 +53,16 @@ package body wave is
       count   : Integer   := 1 + Integer (span * Float (sample_rate));
 
    begin
-      -- if Verbose
-      -- then
-      Put ("Creating wave with ");
-      Put (count);
-      Put (" samples");
-      New_Line;
-      Put ("Initial data length ");
-      Put (values'Length);
-      New_Line;
-      -- end if;
+      if Verbose
+      then
+         Put ("Creating wave with ");
+         Put (count);
+         Put (" samples");
+         New_Line;
+         Put ("Initial data length ");
+         Put (values'Length);
+         New_Line;
+      end if;
 
       result.start   := start;
       result.deltax  := delta_t;
@@ -74,6 +74,56 @@ package body wave is
       end loop;
       return result;
    end Create;
+
+   function Synthesize
+      (sample_rate : Integer; start : Float; span : Float; filename : String) 
+      return Wave_Type is
+      result : Wave_Type := Create(sample_rate,start,span) ;
+      sigcount : Integer := 0;
+      use type GNAT.awk.Count;
+   begin
+      GNAT.awk.Set_Field_Separators(";");
+      begin
+         if Verbose
+         then
+            Put_Line(filename);
+         end if;
+         GNAT.awk.Open(filename => filename);
+      exception
+         when others => Put("Exception opening "); Put_Line(filename);
+         raise;
+      end ;
+
+      while not GNAT.awk.End_Of_Data
+      loop
+         GNAT.awk.Get_Line;
+         sigcount := sigcount + 1;
+         if GNAT.awk.Number_Of_Fields /= 2
+         then
+            Put(Integer(GNAT.awk.Number_Of_Fields)); Put_Line("Not a file of real data");
+         end if ;
+         declare
+            freq : Float := float'Value(GNAT.awk.Field(1));
+            amp : Float := float'Value(GNAT.awk.Field(2));
+            sin : signal.sinusoid.Generator :=
+               (frequency => freq , amplitude => amp , phase => 0.0);
+            w : wave.Wave_Type := wave.Create (sample_rate, start, span);
+         begin
+            result := result + w ;
+         end ;
+      end loop ;
+      GNAT.awk.Close(GNAT.awk.Current_Session.all);
+      if Verbose
+      then
+         Put(sigcount); Put(" sinusoids combined"); New_Line;
+      end if;
+      return result;
+
+      exception
+         when others => 
+            Put_Line(GNAT.current_exception.Exception_Information);
+            raise;
+   end Synthesize; 
 
    function CreateComplex
      (sample_rate : Integer; start : Float; span : Float;
@@ -510,7 +560,10 @@ package body wave is
    begin
       GNAT.awk.Set_Field_Separators(separator);
       begin
-         Put_Line(filename);
+         if Verbose
+         then
+            Put_Line(filename);
+         end if;
          GNAT.awk.Open(filename => filename);
       exception
          when others => Put("Exception opening "); Put_Line(filename);

@@ -11,8 +11,8 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Generate 2 square waves
 ```{bash}
-../../bin/square wave.csv 1.0 1.0 0.0
-../../bin/square window.csv 1.0 1.0 0.0
+../../bin/square wave.csv 4.0 1.0 0.0 2.0
+../../bin/square window.csv 10.0 0.5 0.0
 ```
 
 ## The wave forms
@@ -30,8 +30,8 @@ names(sqwave)<-c("x","y")
 winwave<-read.csv("window.csv",header=FALSE,sep=",")
 names(winwave)<-c("x","y")
 
-ggplot(sqwave,aes(x=x,y=y))+geom_line()
-ggplot(winwave,aes(x=x,y=y))+geom_line()+xlim(0.0,2.0)
+ggplot(sqwave,aes(x=x,y=y))+geom_point()
+ggplot(winwave,aes(x=x,y=y))+geom_point()
 
 ```
 
@@ -41,9 +41,10 @@ ggplot(winwave,aes(x=x,y=y))+geom_line()+xlim(0.0,2.0)
 ```
 
 ```{r}
-convwave <- read.csv("wave.csv_conv.csv",,header=FALSE,sep=",")
+convwave <- read.csv("wave.csv_conv.csv",header=FALSE,sep=",")
 names(convwave) <- c("x","y")
 ggplot(convwave,aes(x=x,y=y))+geom_line()
+ggplot(convwave,aes(x=x,y=y))+geom_col()
 ```
 
 

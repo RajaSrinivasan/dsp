@@ -5,6 +5,7 @@ with Ada.Numerics.Complex_Arrays;
 with windows;
 
 package wave is
+   Verbose : boolean := false;
    epsilon : constant Float := 0.000_1;
    function max (l : Float; r : Float) return Float;
    pragma Inline (max);
@@ -38,6 +39,10 @@ package wave is
      (sample_rate : Integer; start : Float; span : Float;
       default : Ada.Numerics.Complex_Types.Complex := (Re => 0.0, Im => 0.0))
       return Wave_Type;
+
+   function Synthesize
+      (sample_rate : Integer; start : Float; span : Float; filename : String) 
+      return Wave_Type ;
 
    function Create (like : Wave_Type; length : Integer := 0) return Wave_Type;
    function Segment (w : Wave_Type; startx : float ; span : float ) return Wave_Type;
