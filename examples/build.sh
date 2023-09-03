@@ -44,4 +44,8 @@ pushd stats
 alr build
 popd
 
+pushd synth
+alr build
+popd
+
 zip examples.zip bin/*
