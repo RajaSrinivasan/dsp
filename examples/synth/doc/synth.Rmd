@@ -1,0 +1,30 @@
+---
+title: "synth"
+author: "Srini"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+# Synthesize - combination of sinusoids
+
+```{bash}
+../../bin/synth waves.csv 800 0.0 4.0
+```
+
+
+## Default Random Number generator
+
+
+```{r}
+library(ggplot2)
+library(dplyr)
+signals<-read.csv("waves.csv_synth.csv")
+names(signals)<-c("x","y")
+plot(signals$x,signals$y,xlab="x",ylab="y")
+```
+

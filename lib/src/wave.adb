@@ -109,6 +109,7 @@ package body wave is
                (frequency => freq , amplitude => amp , phase => 0.0);
             w : wave.Wave_Type := wave.Create (sample_rate, start, span);
          begin
+            wave.Generate (w, sin);
             result := result + w ;
          end ;
       end loop ;
