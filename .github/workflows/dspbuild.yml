@@ -43,19 +43,9 @@ jobs:
       run: |
         R -e "install.packages(c('dplyr','ggplot2','plotly','tinytex','rmarkdown'))"
 
-    - name: Build R Markdown
+    - name: Build Documents
       run: |
-        R -e "tinytex::install_tinytex(force=TRUE)"
-        R -e "rmarkdown::render('examples/sinusoid/doc/sinusoid.Rmd')"
-        R -e "rmarkdown::render('examples/chirp/doc/chirp.Rmd')"
-        R -e "rmarkdown::render('examples/triangle/doc/triangle.Rmd')"
-        R -e "rmarkdown::render('examples/arith/doc/arith.Rmd')"
-        R -e "rmarkdown::render('examples/freqd/doc/freqd.Rmd')"
-        R -e "rmarkdown::render('examples/spect/doc/spect.Rmd')"
-        R -e "rmarkdown::render('examples/audio/doc/audio.Rmd')"
-        R -e "rmarkdown::render('examples/stats/doc/stats.Rmd')"
-
-        cd examples ; zip docs.zip */*/*.pdf */*/*.html
+        build_doc.sh
 
     - name: Publish
       uses: actions/upload-artifact@v3
