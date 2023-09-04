@@ -13,4 +13,3 @@ R -e "rmarkdown::render('audio/doc/audio.Rmd')"
 R -e "rmarkdown::render('stats/doc/stats.Rmd')"
 R -e "rmarkdown::render('synth/doc/synth.Rmd')"
 zip docs.zip */*/*.pdf */*/*.html
-popd
