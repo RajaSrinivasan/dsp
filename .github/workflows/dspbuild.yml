@@ -45,7 +45,7 @@ jobs:
 
     - name: Build Documents
       run: |
-        pushd examples ; build_doc.sh ; popd
+        pushd examples ; ./build_doc.sh ; popd
 
     - name: Publish
       uses: actions/upload-artifact@v3
