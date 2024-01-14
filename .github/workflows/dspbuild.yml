@@ -32,7 +32,7 @@ jobs:
 
     - name: Build
       run: >
-        pushd adagsl ; cd gsl ; alr build ; popd
+        cd adagsl/gsl ; alr build ; cd ../..
         pushd lib ; alr build ; popd
         pushd examples ; ./build.sh ; popd
       shell: bash
