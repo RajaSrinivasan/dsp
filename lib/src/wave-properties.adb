@@ -5,6 +5,8 @@ with Interfaces.C; use Interfaces.C;
 with gsl.statistics;
 
 with systems;
+
+with gsl.vector_double ;
 package body wave.properties is
 
    function Max (w : Wave_Type) return Float is
@@ -71,25 +73,21 @@ package body wave.properties is
     function Mean( w : wave_type ) return Float is
         result : double ;
     begin
-        result := gsl.statistics.mean( w.Samples(w.samples'First)'Address , 1 
-                                      , size_t(w.Samples'Length));
+        result := gsl.statistics.mean( gsl.vector_double.To_C(w.samples.all) );
         return float(result);
     end Mean ;
 
     function sd( w : wave_type ) return Float is
         result : double;
     begin
-        result := gsl.statistics.sd( w.Samples(w.samples'First)'Address , 1 
-                                      , size_t(w.Samples'Length));
+        result := gsl.statistics.sd( gsl.vector_double.To_C(w.samples.all));
         return float(result);
     end sd;   
 
     function sd( w : wave_type ; mean : Float) return float is
         result : double ;
     begin
-        result := gsl.statistics.sd_with_fixed_mean( w.Samples(w.samples'First)'Address , 1 
-                                      , size_t(w.Samples'Length) 
-                                      , double(mean));
+        result := gsl.statistics.sd_with_fixed_mean( gsl.vector_double.To_C(w.samples.all) , double(mean) );
         return float(result);
     end sd;
 
@@ -141,9 +139,8 @@ package body wave.properties is
         then
             raise Program_Error with "Only real waves";
         end if;
-        result := gsl.statistics.correlation( x.samples(x.samples'First)'Address , 1, 
-                                              y.samples(y.samples'First)'Address , 1 ,
-                                              size_t(x.samples'Length));
+        result := gsl.statistics.correlation( gsl.vector_double.To_C(x.samples.all),
+                                              gsl.vector_double.To_C(y.samples.all) );
         return Float(result);
     end Correlation ;
 
@@ -158,9 +155,8 @@ package body wave.properties is
         then
             raise Program_Error with "Only real waves";
         end if;
-        result := gsl.statistics.covariance( x.samples(x.samples'First)'Address , 1, 
-                                              y.samples(y.samples'First)'Address , 1 ,
-                                              size_t(x.samples'Length));
+        result := gsl.statistics.covariance( gsl.vector_double.To_C(x.samples.all) ,
+                                             gsl.vector_double.To_C(y.samples.all) );
         return Float(result);
     end Covariance;
 
@@ -182,7 +178,7 @@ package body wave.properties is
     end Autocorrelation;
 
    function Convolve( x : wave_type ; w : wave_type ) return Wave_Type is
-      result : Wave_Type := Create( like => x );
+      result : constant Wave_Type := Create( like => x );
       ptr : Integer ;
       sum : Float ;
    begin

@@ -4,7 +4,7 @@ with Ada.Text_Io; use Ada.Text_Io;
 with Ada.Integer_Text_Io; use Ada.Integer_Text_Io;
 with Ada.Long_Integer_Text_Io; use Ada.Long_Integer_Text_Io;
 with GNAT.Random_Numbers;
-with gsl.rng;
+
 package body signal.noise is
 
    gen : GNAT.Random_Numbers.Generator;
@@ -38,21 +38,21 @@ package body signal.noise is
      (g : in out GSLNoise_Type; arg : Float) return Float is
      result : Float ;
    begin
-      result := Float( gsl.rng.gsl_rng_uniform(gslrng) ) ;
+      result := Float( gsl.rng.uniform(gslrng) ) ;
       return result;
    end Value ;
 
    procedure Show is
    begin
-      Put("Name : "); Put( Value(gsl.rng.gsl_rng_name(gslrng))); Put( " ");
-      Put("Seed : "); Put( Long_Integer(gsl.rng.gsl_rng_default_seed) ); Put( " ");
-      Put("Max  : "); Put( Long_Integer(gsl.rng.gsl_rng_max(gslrng))) ; Put(" ");
-      Put("Min  : "); Put( Integer(gsl.rng.gsl_rng_min(gslrng))) ; Put(" ");
+      Put("Name : "); Put( Value(gsl.rng.name(gslrng))); Put( " ");
+      Put("Seed : "); Put( Long_Integer(gsl.rng.default_seed) ); Put( " ");
+      Put("Max  : "); Put( Long_Integer(gsl.rng.max(gslrng))) ; Put(" ");
+      Put("Min  : "); Put( Integer(gsl.rng.min(gslrng))) ; Put(" ");
       New_Line;
    end Show ;
 
 begin
    GNAT.Random_Numbers.Reset (gen);
-   gslgen := gsl.rng.gsl_rng_env_setup;
-   gslrng := gsl.rng.gsl_rng_alloc(gslgen);
+   gslgen := gsl.rng.env_setup;
+   gslrng := gsl.rng.alloc(gslgen);
 end signal.noise;

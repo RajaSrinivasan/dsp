@@ -1,0 +1,6 @@
+[submodule "adagsl"]
+	path = adagsl
+	url = https://gitlab.com/ada23/adagsl.git
+[submodule "adasndfile"]
+	path = adasndfile
+	url = https://gitlab.com/ada23/adasndfile.git
