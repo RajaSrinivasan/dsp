@@ -32,9 +32,9 @@ jobs:
 
     - name: Build
       run: >
-        cd adagsl/gsl ; alr build ; cd ../..
-        pushd lib ; alr build ; popd
-        pushd examples ; ./build.sh ; popd
+        cd adagsl/gsl ; alr build ; cd ../.. ;
+        pushd lib ; alr build ; popd ;
+        pushd examples ; ./build.sh ; popd ;
       shell: bash
 
     - name: Set up R
